@@ -9,4 +9,5 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(${PROJECT_NAME}-${PROJECT_VERSION}
     main.cpp
+    vec.hpp
 )
