@@ -2,6 +2,7 @@
 #include "color.hpp"
 #include "image.hpp"
 #include "ray.hpp"
+#include "sphere.hpp"
 #include "types.hpp"
 #include "vec.hpp"
 
@@ -9,10 +10,16 @@
 
 auto ray_color(const ray3& ray)
 {
-    const color3 blue{.5, .7, 1}, white{1, 1, 1};
+    static const color3 white{1, 1, 1}, blue{.5, .7, 1}, red{1, 0, 0};
 
-    auto t = unit(ray.dir).y() / 2 + .5;
-    return lerp(white, blue, t);
+    static const sphere sphere{point3{0, 0, -1}, .5};
+
+    if (!sphere.is_hit(ray))
+    {
+        auto t = unit(ray.dir).y() / 2 + .5;
+        return lerp(white, blue, t);
+    }
+    else return red;
 }
 
 int main(int argc, char* argv[])
