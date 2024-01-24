@@ -12,5 +12,6 @@ add_executable(${PROJECT_NAME}-${PROJECT_VERSION}
     image.hpp
     main.cpp
     point.hpp
+    ray.hpp
     vec.hpp
 )
