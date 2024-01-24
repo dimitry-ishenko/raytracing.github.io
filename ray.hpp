@@ -4,18 +4,12 @@
 #include "types.hpp"
 #include "vec.hpp"
 
-class ray3
+struct ray3
 {
-    point3 orig_;
-    vec3 dir_;
+    point3 origin;
+    vec3 dir;
 
-public:
-    ray3(point3 orig, vec3 dir) : orig_{std::move(orig)}, dir_{std::move(dir)} { }
-
-    constexpr const auto& orig() const { return orig_; }
-    constexpr const auto& dir() const { return dir_; }
-
-    constexpr auto at(double t) { return orig_ + t * dir_; }
+    constexpr auto at(double l) { return origin + l * dir; }
 };
 
 #endif
