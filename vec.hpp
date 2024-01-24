@@ -3,7 +3,7 @@
 
 #include "array.hpp"
 
-struct vec3 : array3<double>
+struct vec3 : array<double, 3>
 {
     constexpr auto x() const { return data[0]; }
     constexpr auto y() const { return data[1]; }

@@ -3,7 +3,7 @@
 
 #include "array.hpp"
 
-struct color3 : array3<double>
+struct color3 : array<double, 3>
 {
     constexpr auto r() const { return data[0]; }
     constexpr auto g() const { return data[1]; }

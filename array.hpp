@@ -18,15 +18,11 @@ struct array
     static constexpr std::size_t size() { return N; }
 };
 
-template<typename D> using array2 = array<D, 2>;
-template<typename D> using array3 = array<D, 3>;
-template<typename D> using array4 = array<D, 4>;
-
 template<typename A> using dtype = typename A::dtype;
 
-template<typename A> concept Array2 = std::derived_from< A, array2<dtype<A>> >;
-template<typename A> concept Array3 = std::derived_from< A, array3<dtype<A>> >;
-template<typename A> concept Array4 = std::derived_from< A, array4<dtype<A>> >;
+template<typename A> concept Array2 = std::derived_from< A, array<dtype<A>, 2> >;
+template<typename A> concept Array3 = std::derived_from< A, array<dtype<A>, 3> >;
+template<typename A> concept Array4 = std::derived_from< A, array<dtype<A>, 4> >;
 
 template<typename A> concept Array  = Array2<A> || Array3<A> || Array4<A>;
 
