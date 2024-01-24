@@ -1,9 +1,9 @@
 #ifndef POINT_HPP
 #define POINT_HPP
 
-#include "vec.hpp"
+#include "array.hpp"
 
-struct point3 : vec3<double>
+struct point3 : array3<double>
 {
     constexpr auto x() const { return data[0]; }
     constexpr auto y() const { return data[1]; }

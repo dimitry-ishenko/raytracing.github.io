@@ -1,9 +1,9 @@
 #ifndef COLOR_HPP
 #define COLOR_HPP
 
-#include "vec.hpp"
+#include "array.hpp"
 
-struct color3 : vec3<double>
+struct color3 : array3<double>
 {
     constexpr auto r() const { return data[0]; }
     constexpr auto g() const { return data[1]; }

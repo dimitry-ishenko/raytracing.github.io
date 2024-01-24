@@ -8,10 +8,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(${PROJECT_NAME}-${PROJECT_VERSION}
+    array.hpp
     color.hpp
     image.hpp
     main.cpp
     point.hpp
     ray.hpp
-    vec.hpp
 )

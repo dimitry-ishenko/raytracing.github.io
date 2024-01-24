@@ -1,6 +1,6 @@
+#include "array.hpp"
 #include "color.hpp"
 #include "image.hpp"
-#include "vec.hpp"
 
 #include <iostream>
 
