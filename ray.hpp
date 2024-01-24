@@ -4,13 +4,13 @@
 #include "types.hpp"
 #include "vec.hpp"
 
-class ray
+class ray3
 {
     point3 orig_;
     vec3 dir_;
 
 public:
-    ray(point3 orig, vec3 dir) : orig_{std::move(orig)}, dir_{std::move(dir)} { }
+    ray3(point3 orig, vec3 dir) : orig_{std::move(orig)}, dir_{std::move(dir)} { }
 
     constexpr const auto& orig() const { return orig_; }
     constexpr const auto& dir() const { return dir_; }
