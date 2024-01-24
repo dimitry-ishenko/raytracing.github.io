@@ -83,12 +83,17 @@ constexpr auto cross(const A& x, const A& y)
     return A{x[1] * y[2] - y[1] * x[2], x[2] * y[0] - y[2] * x[0], x[0] * y[1] - y[0] * x[1]};
 }
 
+template<Array  A> constexpr auto dist(const A& x, const A& y) { return std::sqrt(dist_2(x, y)); }
+template<Array  A> constexpr auto dist_2(const A& x, const A& y) { return len_2(x - y); }
+
 template<Array2 A> constexpr auto dot(const A& x, const A& y) { return x[0] * y[0] + x[1] * y[1]; }
 template<Array3 A> constexpr auto dot(const A& x, const A& y) { return x[0] * y[0] + x[1] * y[1] + x[2] * y[2]; }
 template<Array4 A> constexpr auto dot(const A& x, const A& y) { return x[0] * y[0] + x[1] * y[1] + x[2] * y[2] + x[3] * y[3]; }
 
 template<Array  A> constexpr auto len(const A& x) { return std::sqrt(len_2(x)); }
 template<Array  A> constexpr auto len_2(const A& x) { return dot(x, x); }
+
+template<Array  A> constexpr auto lerp(const A& x, const A& y, dtype<A> t) { return x + t * (y - x); }
 
 template<Array2 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), std::sqrt(x[1])}; }
 template<Array3 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), std::sqrt(x[1]), std::sqrt(x[2])}; }
