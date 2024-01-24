@@ -13,7 +13,7 @@ struct vec
     D data[N];
 
     constexpr auto& operator[](std::size_t i) { return data[i]; }
-    constexpr auto const& operator[](std::size_t i) const { return data[i]; }
+    constexpr const auto& operator[](std::size_t i) const { return data[i]; }
 
     static constexpr std::size_t size() { return N; }
 };
