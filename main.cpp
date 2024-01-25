@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     vec3 delta_u{ viewport_width / image_width, 0, 0 };
     vec3 delta_v{ 0, -viewport_height / image_height, 0 };
 
-    auto viewport_0 = camera_0 + vec3{ -viewport_width / 2, viewport_height / 2, focal_len };
+    auto viewport_0 = camera_0 + vec3{ -viewport_width / 2, viewport_height / 2, -focal_len };
     auto pixel_0 = viewport_0 + .5 * (delta_u + delta_v);
 
     image img{std::cout, image_width, image_height};
