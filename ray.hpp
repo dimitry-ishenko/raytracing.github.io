@@ -1,7 +1,7 @@
 #ifndef RAY_HPP
 #define RAY_HPP
 
-#include "types.hpp"
+#include "point.hpp"
 #include "vec.hpp"
 
 struct ray3

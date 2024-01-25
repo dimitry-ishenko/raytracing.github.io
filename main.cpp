@@ -1,9 +1,9 @@
 #include "array.hpp"
 #include "color.hpp"
 #include "image.hpp"
+#include "point.hpp"
 #include "ray.hpp"
 #include "sphere.hpp"
-#include "types.hpp"
 #include "vec.hpp"
 
 #include <iostream>

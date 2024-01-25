@@ -1,8 +1,8 @@
 #ifndef SPHERE_HPP
 #define SPHERE_HPP
 
+#include "point.hpp"
 #include "ray.hpp"
-#include "types.hpp"
 
 #include <optional>
 
