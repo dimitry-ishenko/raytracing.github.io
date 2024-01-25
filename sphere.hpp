@@ -15,13 +15,13 @@ struct sphere
     {
         auto rel = ray.origin - center;
 
-        auto a = dot(ray.dir, ray.dir);
-        auto b = 2 * dot(ray.dir, rel);
-        auto c = dot(rel, rel) - radius * radius;
+        auto a = len_2(ray.dir);
+        auto h = dot(ray.dir, rel);
+        auto c = len_2(rel) - radius * radius;
 
-        if (auto d = b * b - 4 * a * c; d >= 0)
+        if (auto d = h * h - a * c; d >= 0)
         {
-            auto t = (-b - std::sqrt(d)) / (2 * a);
+            auto t = (-h - std::sqrt(d)) / a;
             return unit(ray.at(t) - center);
         }
         else return { };

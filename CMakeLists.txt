@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16) # focal
-project(ex VERSION 1.06.1)
+project(ex VERSION 1.06.2)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
