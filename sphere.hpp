@@ -6,7 +6,7 @@
 
 #include <optional>
 
-struct sphere
+struct sphere3
 {
     point3 center;
     double radius;

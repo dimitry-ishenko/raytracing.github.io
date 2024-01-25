@@ -12,7 +12,7 @@ auto ray_color(const ray3& ray)
 {
     static const color3 white{1, 1, 1}, blue{.5, .7, 1};
 
-    static const sphere sphere{point3{0, 0, -1}, .5};
+    static const sphere3 sphere{point3{0, 0, -1}, .5};
 
     if (auto norm = sphere.hit_norm(ray); !norm)
     {
