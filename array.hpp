@@ -31,13 +31,29 @@ template<Array2 A> constexpr auto& operator+=(A& x, const A& y) { x[0] += y[0]; 
 template<Array3 A> constexpr auto& operator+=(A& x, const A& y) { x[0] += y[0]; x[1] += y[1]; x[2] += y[2]; return x; }
 template<Array4 A> constexpr auto& operator+=(A& x, const A& y) { x[0] += y[0]; x[1] += y[1]; x[2] += y[2]; x[3] += y[3]; return x; }
 
+template<Array2 A> constexpr auto& operator+=(A& x, dtype<A> q) { x[0] += q; x[1] += q; return x; }
+template<Array3 A> constexpr auto& operator+=(A& x, dtype<A> q) { x[0] += q; x[1] += q; x[2] += q; return x; }
+template<Array4 A> constexpr auto& operator+=(A& x, dtype<A> q) { x[0] += q; x[1] += q; x[2] += q; x[3] += q; return x; }
+
 template<Array2 A> constexpr auto& operator-=(A& x, const A& y) { x[0] -= y[0]; x[1] -= y[1]; return x; }
 template<Array3 A> constexpr auto& operator-=(A& x, const A& y) { x[0] -= y[0]; x[1] -= y[1]; x[2] -= y[2]; return x; }
 template<Array4 A> constexpr auto& operator-=(A& x, const A& y) { x[0] -= y[0]; x[1] -= y[1]; x[2] -= y[2]; x[3] -= y[3]; return x; }
 
+template<Array2 A> constexpr auto& operator-=(A& x, dtype<A> q) { x[0] -= q; x[1] -= q; return x; }
+template<Array3 A> constexpr auto& operator-=(A& x, dtype<A> q) { x[0] -= q; x[1] -= q; x[2] -= q; return x; }
+template<Array4 A> constexpr auto& operator-=(A& x, dtype<A> q) { x[0] -= q; x[1] -= q; x[2] -= q; x[3] -= q; return x; }
+
+template<Array2 A> constexpr auto& operator*=(A& x, const A& y) { x[0] *= y[0]; x[1] *= y[1]; return x; }
+template<Array3 A> constexpr auto& operator*=(A& x, const A& y) { x[0] *= y[0]; x[1] *= y[1]; x[2] *= y[2]; return x; }
+template<Array4 A> constexpr auto& operator*=(A& x, const A& y) { x[0] *= y[0]; x[1] *= y[1]; x[2] *= y[2]; x[3] *= y[3]; return x; }
+
 template<Array2 A> constexpr auto& operator*=(A& x, dtype<A> q) { x[0] *= q; x[1] *= q; return x; }
 template<Array3 A> constexpr auto& operator*=(A& x, dtype<A> q) { x[0] *= q; x[1] *= q; x[2] *= q; return x; }
 template<Array4 A> constexpr auto& operator*=(A& x, dtype<A> q) { x[0] *= q; x[1] *= q; x[2] *= q; x[3] *= q; return x; }
+
+template<Array2 A> constexpr auto& operator/=(A& x, const A& y) { x[0] /= y[0]; x[1] /= y[1]; return x; }
+template<Array3 A> constexpr auto& operator/=(A& x, const A& y) { x[0] /= y[0]; x[1] /= y[1]; x[2] /= y[2]; return x; }
+template<Array4 A> constexpr auto& operator/=(A& x, const A& y) { x[0] /= y[0]; x[1] /= y[1]; x[2] /= y[2]; x[3] /= y[3]; return x; }
 
 template<Array2 A> constexpr auto& operator/=(A& x, dtype<A> q) { x[0] /= q; x[1] /= q; return x; }
 template<Array3 A> constexpr auto& operator/=(A& x, dtype<A> q) { x[0] /= q; x[1] /= q; x[2] /= q; return x; }
@@ -57,9 +73,29 @@ template<Array2 A> constexpr auto  operator+ (const A& x, const A& y) { return A
 template<Array3 A> constexpr auto  operator+ (const A& x, const A& y) { return A{x[0] + y[0], x[1] + y[1], x[2] + y[2]}; }
 template<Array4 A> constexpr auto  operator+ (const A& x, const A& y) { return A{x[0] + y[0], x[1] + y[1], x[2] + y[2], x[3] + y[3]}; }
 
+template<Array2 A> constexpr auto  operator+ (const A& x, dtype<A> q) { return A{x[0] + q, x[1] + q}; }
+template<Array3 A> constexpr auto  operator+ (const A& x, dtype<A> q) { return A{x[0] + q, x[1] + q, x[2] + q}; }
+template<Array4 A> constexpr auto  operator+ (const A& x, dtype<A> q) { return A{x[0] + q, x[1] + q, x[2] + q, x[3] + q}; }
+
+template<Array2 A> constexpr auto  operator+ (dtype<A> q, const A& x) { return A{q + x[0], q + x[1]}; }
+template<Array3 A> constexpr auto  operator+ (dtype<A> q, const A& x) { return A{q + x[0], q + x[1], q + x[2]}; }
+template<Array4 A> constexpr auto  operator+ (dtype<A> q, const A& x) { return A{q + x[0], q + x[1], q + x[2], q + x[3]}; }
+
 template<Array2 A> constexpr auto  operator- (const A& x, const A& y) { return A{x[0] - y[0], x[1] - y[1]}; }
 template<Array3 A> constexpr auto  operator- (const A& x, const A& y) { return A{x[0] - y[0], x[1] - y[1], x[2] - y[2]}; }
 template<Array4 A> constexpr auto  operator- (const A& x, const A& y) { return A{x[0] - y[0], x[1] - y[1], x[2] - y[2], x[3] - y[3]}; }
+
+template<Array2 A> constexpr auto  operator- (const A& x, dtype<A> q) { return A{x[0] - q, x[1] - q}; }
+template<Array3 A> constexpr auto  operator- (const A& x, dtype<A> q) { return A{x[0] - q, x[1] - q, x[2] - q}; }
+template<Array4 A> constexpr auto  operator- (const A& x, dtype<A> q) { return A{x[0] - q, x[1] - q, x[2] - q, x[3] - q}; }
+
+template<Array2 A> constexpr auto  operator- (dtype<A> q, const A& x) { return A{q - x[0], q - x[1]}; }
+template<Array3 A> constexpr auto  operator- (dtype<A> q, const A& x) { return A{q - x[0], q - x[1], q - x[2]}; }
+template<Array4 A> constexpr auto  operator- (dtype<A> q, const A& x) { return A{q - x[0], q - x[1], q - x[2], q - x[3]}; }
+
+template<Array2 A> constexpr auto  operator* (const A& x, const A& y) { return A{x[0] * y[0], x[1] * y[1]}; }
+template<Array3 A> constexpr auto  operator* (const A& x, const A& y) { return A{x[0] * y[0], x[1] * y[1], x[2] * y[2]}; }
+template<Array4 A> constexpr auto  operator* (const A& x, const A& y) { return A{x[0] * y[0], x[1] * y[1], x[2] * y[2], x[3] * y[3]}; }
 
 template<Array2 A> constexpr auto  operator* (const A& x, dtype<A> q) { return A{x[0] * q, x[1] * q}; }
 template<Array3 A> constexpr auto  operator* (const A& x, dtype<A> q) { return A{x[0] * q, x[1] * q, x[2] * q}; }
@@ -68,6 +104,10 @@ template<Array4 A> constexpr auto  operator* (const A& x, dtype<A> q) { return A
 template<Array2 A> constexpr auto  operator* (dtype<A> q, const A& x) { return A{q * x[0], q * x[1]}; }
 template<Array3 A> constexpr auto  operator* (dtype<A> q, const A& x) { return A{q * x[0], q * x[1], q * x[2]}; }
 template<Array4 A> constexpr auto  operator* (dtype<A> q, const A& x) { return A{q * x[0], q * x[1], q * x[2], q * x[3]}; }
+
+template<Array2 A> constexpr auto  operator/ (const A& x, const A& y) { return A{x[0] / y[0], x[1] / y[1]}; }
+template<Array3 A> constexpr auto  operator/ (const A& x, const A& y) { return A{x[0] / y[0], x[1] / y[1], x[2] / y[2]}; }
+template<Array4 A> constexpr auto  operator/ (const A& x, const A& y) { return A{x[0] / y[0], x[1] / y[1], x[2] / y[2], x[3] / y[3]}; }
 
 template<Array2 A> constexpr auto  operator/ (const A& x, dtype<A> q) { return A{x[0] / q, x[1] / q}; }
 template<Array3 A> constexpr auto  operator/ (const A& x, dtype<A> q) { return A{x[0] / q, x[1] / q, x[2] / q}; }
