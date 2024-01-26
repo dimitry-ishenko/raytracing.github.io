@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16) # focal
-project(ex VERSION 1.06.7)
+project(ex VERSION 1.06.8)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}-${PROJECT_VERSION}
     array.hpp
     color.hpp
     image.hpp
+    interval.hpp
     main.cpp
     object.hpp
     point.hpp

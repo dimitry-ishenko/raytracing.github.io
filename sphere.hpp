@@ -3,9 +3,6 @@
 
 #include "object.hpp"
 #include "point.hpp"
-#include "ray.hpp"
-
-#include <optional>
 
 struct sphere3 : object
 {
@@ -14,7 +11,7 @@ struct sphere3 : object
 
     sphere3(const point3& center, double radius) : center{center}, radius{radius} { }
 
-    virtual std::optional<hit> get_hit(const ray3& ray, double t_min, double t_max) const override
+    virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
     {
         auto rel = ray.origin - center;
 
@@ -28,10 +25,10 @@ struct sphere3 : object
         auto sqrt_d = std::sqrt(d);
 
         auto t = (-h - sqrt_d) / a;
-        if (t <= t_min || t >= t_max)
+        if (!ti.surr(t))
         {
             t = (-h + sqrt_d) / a;
-            if (t <= t_min || t >= t_max) return { };
+            if (!ti.surr(t)) return { };
         }
 
         auto point = ray.at(t);

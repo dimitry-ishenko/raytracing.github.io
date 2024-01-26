@@ -7,15 +7,12 @@
 #include "vec.hpp"
 
 #include <iostream>
-#include <limits>
-
-constexpr const auto inf = std::numeric_limits<double>::infinity();
 
 auto ray_color(const ray3& ray, const object_list& world)
 {
     static const color3 white{1, 1, 1}, blue{.5, .7, 1};
 
-    if (auto hit = world.get_hit(ray, 0, inf); !hit)
+    if (auto hit = world.get_hit(ray, {0, inf}); !hit)
     {
         auto t = unit(ray.dir).y() / 2 + .5;
         return lerp(white, blue, t);
