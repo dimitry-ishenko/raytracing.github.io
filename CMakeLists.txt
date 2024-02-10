@@ -15,6 +15,7 @@ add_executable(${PROJECT_NAME}-${PROJECT_VERSION}
     main.cpp
     object.hpp
     point.hpp
+    random.hpp
     ray.hpp
     sphere.hpp
     vec.hpp
