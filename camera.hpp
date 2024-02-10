@@ -26,32 +26,35 @@ class camera
 
     constexpr static int to_8bit(double v) { return std::lerp(0., 255., std::clamp(v, 0., 1.)) + .5; }
 
+    int width_, height_;
+    point3 center_{0, 0, 0};
+    double focal_len_ = 1;
+
 public:
-    void render(const object_list& world, int width, int height) const
+    camera(int width, int height) : width_{width}, height_{height} { }
+
+    void render(const object_list& world) const
     {
-        point3 center{0, 0, 0};
-        double focal_len = 1;
-
         double viewport_height = 2;
-        double viewport_width = viewport_height * width / height;
+        double viewport_width = viewport_height * width_ / height_;
 
-        auto viewport0 = center + vec3{ -viewport_width / 2, viewport_height / 2, -focal_len };
+        auto viewport0 = center_ + vec3{ -viewport_width / 2, viewport_height / 2, -focal_len_ };
 
-        auto dx = vec3{ viewport_width / width, 0, 0 };
-        auto dy = vec3{ 0, -viewport_height / height, 0 };
+        auto dx = vec3{ viewport_width / width_, 0, 0 };
+        auto dy = vec3{ 0, -viewport_height / height_, 0 };
         auto pixel0 = viewport0 + .5 * (dx + dy);
 
-        std::cout << "P3\n" << width << ' ' << height << "\n255\n";
+        std::cout << "P3\n" << width_ << ' ' << height_ << "\n255\n";
 
-        for (int j = 0; j < height; ++j)
+        for (int j = 0; j < height_; ++j)
         {
-            std::cerr << "\rRemaining: " << (height - j) << ' ' << std::flush;
-            for (int i = 0; i < width; ++i)
+            std::cerr << "\rRemaining: " << (height_ - j) << ' ' << std::flush;
+            for (int i = 0; i < width_; ++i)
             {
                 auto pixel = pixel0 + (i * dx) + (j * dy);
-                auto dir = pixel - center;
+                auto dir = pixel - center_;
 
-                auto c = ray_color(ray3{center, dir}, world);
+                auto c = ray_color(ray3{center_, dir}, world);
                 std::cout << to_8bit(c.r()) << ' ' << to_8bit(c.g()) << ' ' << to_8bit(c.b()) << '\n';
             }
         }

@@ -10,7 +10,7 @@ int main(int argc, char* argv[])
     world.children.emplace_back(new sphere3{point3{0, -100.5, -1}, 100});
 
     int width = 1200, height = width * 9 / 16;
-    camera{ }.render(world, width, height);
+    camera{width, height}.render(world);
 
     return 0;
 }
