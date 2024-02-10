@@ -5,6 +5,7 @@
 #include "object.hpp"
 #include "point.hpp"
 #include "ray.hpp"
+#include "random.hpp"
 #include "vec.hpp"
 
 #include <algorithm> // std::clamp
@@ -29,6 +30,7 @@ class camera
     int width_, height_;
     point3 center_{0, 0, 0};
     double focal_len_ = 1;
+    int samples_ = 100;
 
 public:
     camera(int width, int height) : width_{width}, height_{height} { }
@@ -44,6 +46,8 @@ public:
         auto dy = vec3{ 0, -viewport_height / height_, 0 };
         auto pixel0 = viewport0 + .5 * (dx + dy);
 
+        rnd_gen rnd{-.5, .5};
+
         std::cout << "P3\n" << width_ << ' ' << height_ << "\n255\n";
 
         for (int j = 0; j < height_; ++j)
@@ -54,7 +58,14 @@ public:
                 auto pixel = pixel0 + (i * dx) + (j * dy);
                 auto dir = pixel - center_;
 
-                auto c = ray_color(ray3{center_, dir}, world);
+                color3 c{0, 0, 0};
+                for (int s = 0; s < samples_; ++s)
+                {
+                    auto sub_pix = dx * rnd() + dy * rnd();
+                    c += ray_color(ray3{center_, dir + sub_pix}, world);
+                }
+                c /= samples_;
+
                 std::cout << to_8bit(c.r()) << ' ' << to_8bit(c.g()) << ' ' << to_8bit(c.b()) << '\n';
             }
         }
