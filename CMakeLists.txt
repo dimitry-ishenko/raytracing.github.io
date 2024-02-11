@@ -7,7 +7,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable(${PROJECT_NAME}-${PROJECT_VERSION}
+set(EX ${PROJECT_NAME}-${PROJECT_VERSION})
+add_executable(${EX}
     array.hpp
     camera.hpp
     color.hpp
@@ -20,3 +21,4 @@ add_executable(${PROJECT_NAME}-${PROJECT_VERSION}
     sphere.hpp
     vec.hpp
 )
+target_compile_options(${EX} PUBLIC -O3)
