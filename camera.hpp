@@ -77,7 +77,8 @@ public:
                         auto sub_pix = dx * rnd() + dy * rnd();
                         return ray_color(ray3{center_, dir + sub_pix}, max_depth_, world);
                     }
-                ) / s.size();
+                );
+                c = sqrt(c / s.size()); // gamma correction
 
                 std::cout << to_8bit(c.r()) << ' ' << to_8bit(c.g()) << ' ' << to_8bit(c.b()) << '\n';
             }
