@@ -25,9 +25,7 @@ class camera
         {
             static rnd_sphere3_gen rnd{1};
 
-            auto dir = rnd();
-            if (dot(dir, hit->norm) < 0) dir = -dir;
-
+            auto dir = hit->norm + rnd();
             return .5 * ray_color(ray3{hit->point, dir}, depth - 1, world);
         }
 
