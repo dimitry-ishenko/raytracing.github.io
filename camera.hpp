@@ -10,7 +10,10 @@
 
 #include <algorithm> // std::clamp
 #include <cmath> // std::lerp
+#include <execution>
 #include <iostream>
+#include <numeric> // std::transform_reduce
+#include <ranges>
 
 class camera
 {
@@ -58,13 +61,14 @@ public:
                 auto pixel = pixel0 + (i * dx) + (j * dy);
                 auto dir = pixel - center_;
 
-                color3 c{0, 0, 0};
-                for (int s = 0; s < samples_; ++s)
-                {
-                    auto sub_pix = dx * rnd() + dy * rnd();
-                    c += ray_color(ray3{center_, dir + sub_pix}, world);
-                }
-                c /= samples_;
+                auto s = std::views::iota(0, samples_);
+                auto c = std::transform_reduce(std::execution::par_unseq,
+                    s.begin(), s.end(), color3{0, 0, 0}, std::plus<>(), [&](auto)
+                    {
+                        auto sub_pix = dx * rnd() + dy * rnd();
+                        return ray_color(ray3{center_, dir + sub_pix}, world);
+                    }
+                ) / s.size();
 
                 std::cout << to_8bit(c.r()) << ' ' << to_8bit(c.g()) << ' ' << to_8bit(c.b()) << '\n';
             }
