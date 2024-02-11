@@ -21,7 +21,7 @@ class camera
     {
         if (!depth) return color3{0, 0, 0};
 
-        if (auto hit = world.get_hit(ray, {0, inf}))
+        if (auto hit = world.get_hit(ray, {.001, inf}))
         {
             static rnd_sphere3_gen rnd{1};
 
