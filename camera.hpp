@@ -17,12 +17,19 @@
 
 class camera
 {
-    static auto ray_color(const ray3& ray, const object_list& world)
+    static color3 ray_color(const ray3& ray, const object_list& world)
     {
-        static const color3 white{1, 1, 1}, blue{.5, .7, 1};
+        if (auto hit = world.get_hit(ray, {0, inf}))
+        {
+            static rnd_sphere3_gen rnd{1};
 
-        auto hit = world.get_hit(ray, {0, inf});
-        if (hit) return color3::from_vec3(hit->norm / 2 + .5);
+            auto dir = rnd();
+            if (dot(dir, hit->norm) < 0) dir = -dir;
+
+            return .5 * ray_color(ray3{hit->point, dir}, world);
+        }
+
+        static const color3 white{1, 1, 1}, blue{.5, .7, 1};
 
         auto t = unit(ray.dir).y() / 2 + .5;
         return lerp(white, blue, t);
