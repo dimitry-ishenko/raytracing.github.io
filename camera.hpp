@@ -17,8 +17,10 @@
 
 class camera
 {
-    static color3 ray_color(const ray3& ray, const object_list& world)
+    static color3 ray_color(const ray3& ray, int depth, const object_list& world)
     {
+        if (!depth) return color3{0, 0, 0};
+
         if (auto hit = world.get_hit(ray, {0, inf}))
         {
             static rnd_sphere3_gen rnd{1};
@@ -26,7 +28,7 @@ class camera
             auto dir = rnd();
             if (dot(dir, hit->norm) < 0) dir = -dir;
 
-            return .5 * ray_color(ray3{hit->point, dir}, world);
+            return .5 * ray_color(ray3{hit->point, dir}, depth - 1, world);
         }
 
         static const color3 white{1, 1, 1}, blue{.5, .7, 1};
@@ -40,7 +42,9 @@ class camera
     int width_, height_;
     point3 center_{0, 0, 0};
     double focal_len_ = 1;
+
     int samples_ = 100;
+    int max_depth_ = 50;
 
 public:
     camera(int width, int height) : width_{width}, height_{height} { }
@@ -73,7 +77,7 @@ public:
                     s.begin(), s.end(), color3{0, 0, 0}, std::plus<>(), [&](auto)
                     {
                         auto sub_pix = dx * rnd() + dy * rnd();
-                        return ray_color(ray3{center_, dir + sub_pix}, world);
+                        return ray_color(ray3{center_, dir + sub_pix}, max_depth_, world);
                     }
                 ) / s.size();
 
