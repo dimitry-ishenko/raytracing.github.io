@@ -135,6 +135,10 @@ template<Array  A> constexpr auto len_2(const A& x) { return dot(x, x); }
 
 template<Array  A> constexpr auto lerp(const A& x, const A& y, dtype<A> t) { return x + t * (y - x); }
 
+template<Array2 A> constexpr auto near_0(const A& x, dtype<A> e = 1e-8) { return std::abs(x[0]) < e && std::abs(x[1]) < e; }
+template<Array3 A> constexpr auto near_0(const A& x, dtype<A> e = 1e-8) { return std::abs(x[0]) < e && std::abs(x[1]) < e && std::abs(x[2]) < e; }
+template<Array4 A> constexpr auto near_0(const A& x, dtype<A> e = 1e-8) { return std::abs(x[0]) < e && std::abs(x[1]) < e && std::abs(x[2]) < e && std::abs(x[3]) < e; }
+
 template<Array2 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), std::sqrt(x[1])}; }
 template<Array3 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), std::sqrt(x[1]), std::sqrt(x[2])}; }
 template<Array4 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), std::sqrt(x[1]), std::sqrt(x[2]), std::sqrt(x[3])}; }
