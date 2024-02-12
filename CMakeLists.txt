@@ -14,6 +14,7 @@ add_executable(${EX}
     color.hpp
     interval.hpp
     main.cpp
+    material.hpp
     object.hpp
     point.hpp
     random.hpp

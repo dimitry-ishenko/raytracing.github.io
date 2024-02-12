@@ -10,12 +10,16 @@
 #include <optional>
 #include <vector>
 
+struct material;
+
 struct hit
 {
     point3 point;
     unit<vec3> norm;
     double t;
+
     bool front;
+    std::shared_ptr<material> mat;
 };
 
 struct object
