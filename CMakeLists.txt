@@ -13,6 +13,7 @@ add_executable(${EX}
     camera.hpp
     color.hpp
     interval.hpp
+    lambert.hpp
     main.cpp
     material.hpp
     object.hpp
