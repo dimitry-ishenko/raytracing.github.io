@@ -16,6 +16,7 @@ add_executable(${EX}
     lambert.hpp
     main.cpp
     material.hpp
+    metal.hpp
     object.hpp
     point.hpp
     random.hpp
