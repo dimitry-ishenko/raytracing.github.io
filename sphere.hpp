@@ -1,6 +1,7 @@
 #ifndef SPHERE_HPP
 #define SPHERE_HPP
 
+#include "material.hpp"
 #include "object.hpp"
 #include "point.hpp"
 
@@ -8,8 +9,11 @@ struct sphere3 : object
 {
     point3 center;
     double radius;
+    std::shared_ptr<material> mat;
 
-    sphere3(const point3& center, double radius) : center{center}, radius{radius} { }
+    sphere3(const point3& center, double radius, std::shared_ptr<material> mat) :
+        center{center}, radius{radius}, mat{std::move(mat)}
+    { }
 
     virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
     {
@@ -35,7 +39,7 @@ struct sphere3 : object
         auto norm  = unit{(point - center) / radius, adopt_unit};
         auto front = dot(ray.dir, norm) < 0;
 
-        return hit{ point, front ? norm : -norm, t, front };
+        return hit{ point, front ? norm : -norm, t, front, mat };
     }
 };
 

@@ -23,10 +23,10 @@ class camera
 
         if (auto hit = world.get_hit(ray, {.001, inf}))
         {
-            static rnd_sphere3_gen rnd{1};
+            if (auto scatter = hit->mat->get_scatter(ray, *hit))
+                return scatter->atten * ray_color(scatter->ray, depth - 1, world);
 
-            auto dir = hit->norm + rnd();
-            return .5 * ray_color(ray3{hit->point, dir}, depth - 1, world);
+            return { };
         }
 
         static const color3 white{1, 1, 1}, blue{.5, .7, 1};
