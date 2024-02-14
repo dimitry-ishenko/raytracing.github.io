@@ -98,6 +98,9 @@ template<Array2 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), s
 template<Array3 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), std::sqrt(x[1]), std::sqrt(x[2])}; }
 template<Array4 A> constexpr auto sqrt(const A& x) { return A{std::sqrt(x[0]), std::sqrt(x[1]), std::sqrt(x[2]), std::sqrt(x[3])}; }
 
-template<Array  A> constexpr auto unit(const A& x) { return x / len(x); }
+template<Array  A> struct unit : A
+{
+    explicit unit(const A& x) : A{ x / len(x) } { }
+};
 
 #endif
