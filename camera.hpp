@@ -19,17 +19,17 @@ class camera
 {
     static color3 ray_color(const ray3& ray, int depth, const object_list& world)
     {
-        if (!depth) return color3{0, 0, 0};
+        if (!depth) return { };
 
         if (auto hit = world.get_hit(ray, {.001, inf}))
         {
             if (auto scatter = hit->mat->get_scatter(ray, *hit))
-                return scatter->atten * ray_color(scatter->ray, depth - 1, world);
+                return scatter->atten * ray_color(scatter->ray, --depth, world);
 
             return { };
         }
 
-        static const color3 white{1, 1, 1}, blue{.5, .7, 1};
+        static constexpr color3 white{1, 1, 1}, blue{.5, .7, 1};
 
         auto t = unit(ray.dir).y() / 2 + .5;
         return lerp(white, blue, t);
@@ -72,7 +72,7 @@ public:
 
                 auto s = std::views::iota(0, samples_);
                 auto c = std::transform_reduce(std::execution::par_unseq,
-                    s.begin(), s.end(), color3{0, 0, 0}, std::plus<>(), [&](auto)
+                    s.begin(), s.end(), color3{ }, std::plus<>(), [&](auto)
                     {
                         auto sub_pix = dx * rnd() + dy * rnd();
                         return ray_color(ray3{center_, dir + sub_pix}, max_depth_, world);
