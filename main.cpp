@@ -1,30 +1,35 @@
-#include "array.hpp"
 #include "color.hpp"
 #include "image.hpp"
+#include "object.hpp"
 #include "point.hpp"
 #include "ray.hpp"
 #include "sphere.hpp"
 #include "vec.hpp"
 
 #include <iostream>
+#include <limits>
 
-auto ray_color(const ray3& ray)
+constexpr const auto inf = std::numeric_limits<double>::infinity();
+
+auto ray_color(const ray3& ray, const object_list& world)
 {
     static const color3 white{1, 1, 1}, blue{.5, .7, 1};
 
-    static const sphere3 sphere{point3{0, 0, -1}, .5};
-
-    if (auto norm = sphere.hit_norm(ray); !norm)
+    if (auto hit = world.get_hit(ray, 0, inf); !hit)
     {
         auto t = unit(ray.dir).y() / 2 + .5;
         return lerp(white, blue, t);
     }
-    else return color3::from_vec3(*norm / 2 + .5);
+    else return color3::from_vec3(hit->norm / 2 + .5);
 }
 
 int main(int argc, char* argv[])
 {
     int image_width = 1200, image_height = image_width * 9 / 16;
+
+    object_list world;
+    world.children.emplace_back(new sphere3{point3{0, 0, -1}, .5});
+    world.children.emplace_back(new sphere3{point3{0, -100.5, -1}, 100});
 
     double viewport_height = 2;
     double viewport_width = viewport_height * image_width / image_height;
@@ -49,7 +54,7 @@ int main(int argc, char* argv[])
             auto dir = pixel - camera_0;
 
             ray3 ray{camera_0, dir};
-            img << ray_color(ray);
+            img << ray_color(ray, world);
         }
     }
     std::cerr << "\rDone.            " << std::endl;
