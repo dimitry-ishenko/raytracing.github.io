@@ -4,7 +4,10 @@
 #include "color.hpp"
 #include "object.hpp" // hit
 #include "material.hpp"
+#include "random.hpp"
 #include "vec.hpp"
+
+#include <cmath>
 
 struct dielec : material
 {
@@ -14,6 +17,8 @@ struct dielec : material
 
     virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
     {
+        static rnd_gen rnd{0, 1};
+
         // https://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
         auto l = unit{ray.dir};
         auto n = unit{hit.norm};
@@ -22,8 +27,13 @@ struct dielec : material
         auto cos_th1 = dot(-n, l);
         auto sin2_th2 = r_idx * r_idx * (1 - cos_th1 * cos_th1);
 
+        // https://en.wikipedia.org/wiki/Schlick%27s_approximation
+        auto r0 = (1 - r_idx) / (1 + r_idx);
+        r0 = r0 * r0;
+        auto r_th = r0 + (1 - r0) * std::pow(1 - cos_th1, 5);
+
         vec3 ref;
-        if (sin2_th2 > 1) // reflect
+        if (sin2_th2 > 1 || r_th > rnd()) // reflect
         {
             ref = l + 2 * cos_th1 * n;
         }
