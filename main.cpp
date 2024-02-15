@@ -1,4 +1,5 @@
 #include "camera.hpp"
+#include "dielec.hpp"
 #include "lambert.hpp"
 #include "metal.hpp"
 #include "object.hpp"
@@ -8,8 +9,8 @@
 int main(int argc, char* argv[])
 {
     auto mat_ground = std::make_shared<lambert>(color3{.8, .8,  0});
-    auto mat_center = std::make_shared<lambert>(color3{.7, .3, .3});
-    auto mat_left   = std::make_shared<metal  >(color3{.8, .8, .8}, .3);
+    auto mat_center = std::make_shared<dielec >(1.5);
+    auto mat_left   = std::make_shared<dielec >(1.5);
     auto mat_right  = std::make_shared<metal  >(color3{.8, .6, .2},  1);
 
     object_list world;
