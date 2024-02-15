@@ -18,18 +18,18 @@ struct metal : material
     {
         static rnd_sphere3_gen rnd{1};
 
-        auto dir = reflect(unit{ray.dir}, hit.norm) + fuzz * rnd();
-        if (dot(dir, hit.norm) < 0) return { };
-
-        return scatter{ ray3{hit.point, dir}, albedo };
-    }
-
-private:
-    static vec3 reflect(const unit<vec3>& l, const unit<vec3>& n)
-    {
         // https://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
+        auto l = ray.dir;
+        auto n = unit{hit.norm};
+
         auto cos_th1 = dot(-n, l);
-        return l + 2 * cos_th1 * n;
+        auto ref = l + 2 * cos_th1 * n;
+
+        ref += fuzz * rnd();
+
+        if (dot(ref, hit.norm) < 0) return { };
+
+        return scatter{ ray3{hit.point, ref}, albedo };
     }
 };
 
