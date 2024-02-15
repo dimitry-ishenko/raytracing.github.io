@@ -10,16 +10,16 @@
 
 auto ray_color(const ray3& ray)
 {
-    static const color3 white{1, 1, 1}, blue{.5, .7, 1}, red{1, 0, 0};
+    static const color3 white{1, 1, 1}, blue{.5, .7, 1};
 
     static const sphere sphere{point3{0, 0, -1}, .5};
 
-    if (!sphere.is_hit(ray))
+    if (auto norm = sphere.hit_norm(ray); !norm)
     {
         auto t = unit(ray.dir).y() / 2 + .5;
         return lerp(white, blue, t);
     }
-    else return red;
+    else return color3::from_vec3(*norm / 2 + .5);
 }
 
 int main(int argc, char* argv[])
