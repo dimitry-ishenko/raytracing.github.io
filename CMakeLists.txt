@@ -12,6 +12,7 @@ add_executable(${EX}
     array.hpp
     camera.hpp
     color.hpp
+    dielec.hpp
     interval.hpp
     lambert.hpp
     main.cpp
