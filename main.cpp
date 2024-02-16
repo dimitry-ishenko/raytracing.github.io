@@ -17,6 +17,7 @@ int main(int argc, char* argv[])
     world.children.emplace_back(new sphere3{ point3{ 0, -100.5, -1}, 100, mat_ground });
     world.children.emplace_back(new sphere3{ point3{ 0,      0, -1},  .5, mat_center });
     world.children.emplace_back(new sphere3{ point3{-1,      0, -1},  .5, mat_left   });
+    world.children.emplace_back(new sphere3{ point3{-1,      0, -1}, -.4, mat_left   });
     world.children.emplace_back(new sphere3{ point3{ 1,      0, -1},  .5, mat_right  });
 
     int width = 1200, height = width * 9 / 16;
