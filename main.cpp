@@ -20,7 +20,13 @@ int main(int argc, char* argv[])
     world.children.emplace_back(new sphere3{ point3{-1,      0, -1}, -.4, mat_left   });
     world.children.emplace_back(new sphere3{ point3{ 1,      0, -1},  .5, mat_right  });
 
-    camera{ }.render(world);
+    view view;
+    view.from  = point3{0, 0, 0};
+    view.at    = point3{0, 0,-1};
+    view.up    = vec3  {0, 1, 0};
+    view.field = 90;
+
+    camera{ }.render(world, view);
 
     return 0;
 }

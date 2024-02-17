@@ -18,6 +18,13 @@
 
 using std::numbers::pi;
 
+struct view
+{
+    point3 from, at;
+    vec3 up;
+    double field;
+};
+
 struct camera
 {
     int samples_per_pixel = 100;
@@ -26,24 +33,19 @@ struct camera
     int img_width = 1200;
     int img_height = img_width * 9 / 16;
 
-    double fov = 90;
-    point3 look_from{0, 0,  0};
-    point3 look_at  {0, 0, -1};
-    vec3   look_up  {0, 1,  0};
-
-    void render(const object_list& world) const
+    void render(const object_list& world, const view& view) const
     {
-        auto h = std::tan(deg2rad(fov) / 2);
-        auto focal = len(look_at - look_from);
+        auto h = std::tan(deg2rad(view.field) / 2);
+        auto focal = len(view.at - view.from);
 
         auto vp_height = 2 * h * focal;
         auto vp_width = vp_height * img_width / img_height;
 
-        auto w = unit{look_from - look_at};
-        auto u = unit{cross(look_up, w)};
+        auto w = unit{view.from - view.at};
+        auto u = unit{cross(view.up, w)};
         auto v = unit{cross(w, u)};
 
-        auto viewport0 = look_from + (-focal * w) + (-vp_width / 2 * u) + (vp_height / 2 * v);
+        auto viewport0 = view.from + (-focal * w) + (-vp_width / 2 * u) + (vp_height / 2 * v);
 
         auto dx = vp_width / img_width * u;
         auto dy = -vp_height / img_height * v;
@@ -59,14 +61,14 @@ struct camera
             for (int i = 0; i < img_width; ++i)
             {
                 auto pixel = pixel0 + (i * dx) + (j * dy);
-                auto dir = pixel - look_from;
+                auto dir = pixel - view.from;
 
                 auto s = std::views::iota(0, samples_per_pixel);
                 auto c = std::transform_reduce(std::execution::par_unseq,
                     s.begin(), s.end(), color3{ }, std::plus<>(), [&](auto)
                     {
                         auto fuzz = dx * rnd() + dy * rnd();
-                        return ray_color(ray3{look_from, dir + fuzz}, max_depth, world);
+                        return ray_color(ray3{view.from, dir + fuzz}, max_depth, world);
                     }
                 );
                 c = sqrt(c / s.size()); // gamma correction
