@@ -25,6 +25,8 @@ int main(int argc, char* argv[])
     view.at    = point3{ 0, 0, -1};
     view.up    = vec3  { 0, 1,  0};
     view.field = 20;
+    view.focus_angle = 10;
+    view.focus_dist = 3.4;
 
     camera{ }.render(world, view);
 

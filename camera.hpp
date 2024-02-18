@@ -23,6 +23,9 @@ struct view
     point3 from, at;
     vec3 up;
     double field;
+
+    double focus_dist;
+    double focus_angle;
 };
 
 struct camera
@@ -36,16 +39,17 @@ struct camera
     void render(const object_list& world, const view& view) const
     {
         auto h = std::tan(deg2rad(view.field) / 2);
-        auto focal = len(view.at - view.from);
 
-        auto vp_height = 2 * h * focal;
+        auto vp_height = 2 * h * view.focus_dist;
         auto vp_width = vp_height * img_width / img_height;
+
+        auto focus_radius = view.focus_dist * std::tan(deg2rad(view.focus_angle / 2));
 
         auto w = unit{view.from - view.at};
         auto u = unit{cross(view.up, w)};
         auto v = unit{cross(w, u)};
 
-        auto viewport0 = view.from + (-focal * w) + (-vp_width / 2 * u) + (vp_height / 2 * v);
+        auto viewport0 = view.from + (-view.focus_dist * w) + (-vp_width / 2 * u) + (vp_height / 2 * v);
 
         auto dx = vp_width / img_width * u;
         auto dy = -vp_height / img_height * v;
@@ -61,14 +65,18 @@ struct camera
             for (int i = 0; i < img_width; ++i)
             {
                 auto pixel = pixel0 + (i * dx) + (j * dy);
-                auto dir = pixel - view.from;
 
                 auto s = std::views::iota(0, samples_per_pixel);
                 auto c = std::transform_reduce(std::execution::par_unseq,
                     s.begin(), s.end(), color3{ }, std::plus<>(), [&](auto)
                     {
-                        auto fuzz = dx * rnd() + dy * rnd();
-                        return ray_color(ray3{view.from, dir + fuzz}, max_depth, world);
+                        auto de_focus = focus_radius * rnd_disk3() * (u + v);
+                        auto origin = view.from + de_focus;
+
+                        auto sub_pixel = dx * rnd() + dy * rnd();
+                        auto dir = pixel - origin + sub_pixel;
+
+                        return ray_color(ray3{origin, dir}, max_depth, world);
                     }
                 );
                 c = sqrt(c / s.size()); // gamma correction
