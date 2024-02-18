@@ -22,6 +22,15 @@ inline auto rnd()
     return rnd();
 }
 
+inline auto rnd_disk3()
+{
+    static rnd_gen rnd{-1, 1};
+
+    vec3 v{rnd(), rnd(), 0};
+    for (; len_2(v) > 1; v = vec3{rnd(), rnd(), 0});
+    return v;
+}
+
 inline auto rnd_sphere3()
 {
     static rnd_gen rnd{-1, 1};
