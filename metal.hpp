@@ -16,8 +16,6 @@ struct metal : material
 
     virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
     {
-        static rnd_sphere3_gen rnd{1};
-
         // https://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
         auto l = ray.dir;
         auto n = unit{hit.norm};
@@ -25,8 +23,7 @@ struct metal : material
         auto cos_th1 = dot(-n, l);
         auto ref = l + 2 * cos_th1 * n;
 
-        ref += fuzz * rnd();
-
+        ref += fuzz * unit{rnd_sphere3()};
         if (dot(ref, hit.norm) < 0) return { };
 
         return scatter{ ray3{hit.point, ref}, albedo };

@@ -6,43 +6,29 @@
 
 #include <random>
 
-inline auto& gen()
-{
-    static std::mt19937 gen_;
-    return gen_;
-}
-
 class rnd_gen
 {
-    std::uniform_real_distribution<double> dist_;
+    inline static std::mt19937 gen;
+    std::uniform_real_distribution<double> dist;
 
 public:
-    rnd_gen(double min, double max) : dist_{min, max} { }
-    auto operator()() { return dist_(gen()); }
+    rnd_gen(double min, double max) : dist{min, max} { }
+    auto operator()() { return dist(gen); }
 };
 
-class rnd_vec3_gen
+inline auto rnd()
 {
-    std::uniform_real_distribution<double> dist_;
+    static rnd_gen rnd{0, 1};
+    return rnd();
+}
 
-public:
-    rnd_vec3_gen(double min, double max) : dist_{min, max} { }
-    auto operator()() { return vec3{dist_(gen()), dist_(gen()), dist_(gen())}; }
-};
-
-class rnd_sphere3_gen
+inline auto rnd_sphere3()
 {
-    rnd_vec3_gen gen_;
+    static rnd_gen rnd{-1, 1};
 
-public:
-    explicit rnd_sphere3_gen(double r) : gen_{-r, r} { }
-
-    auto operator()()
-    {
-        vec3 v;
-        do v = gen_(); while (len_2(v) > 1);
-        return unit{v};
-    }
-};
+    vec3 v{rnd(), rnd(), rnd()};
+    for (; len_2(v) > 1; v = vec3{rnd(), rnd(), rnd()});
+    return v;
+}
 
 #endif

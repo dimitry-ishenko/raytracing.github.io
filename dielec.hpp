@@ -17,8 +17,6 @@ struct dielec : material
 
     virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
     {
-        static rnd_gen rnd{0, 1};
-
         // https://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
         auto l = unit{ray.dir};
         auto n = unit{hit.norm};
