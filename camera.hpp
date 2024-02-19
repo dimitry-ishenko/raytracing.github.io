@@ -10,11 +10,10 @@
 
 #include <algorithm> // std::clamp
 #include <cmath> // std::lerp
-#include <execution>
 #include <iostream>
 #include <numbers>
-#include <numeric> // std::transform_reduce
-#include <ranges>
+#include <tbb/blocked_range.h>
+#include <tbb/parallel_reduce.h>
 
 using std::numbers::pi;
 
@@ -66,20 +65,25 @@ struct camera
             {
                 auto pixel = pixel0 + (i * dx) + (j * dy);
 
-                auto s = std::views::iota(0, samples_per_pixel);
-                auto c = std::transform_reduce(std::execution::par_unseq,
-                    s.begin(), s.end(), color3{ }, std::plus<>(), [&](auto)
+                auto c = tbb::parallel_reduce(tbb::blocked_range<int>{0, samples_per_pixel}, color3{ },
+                    [&](const tbb::blocked_range<int>& r, color3 c)
                     {
-                        auto de_focus = focus_radius * rnd_disk3() * (u + v);
-                        auto origin = view.from + de_focus;
+                        for (auto i = r.begin(); i != r.end(); ++i)
+                        {
+                            auto de_focus = focus_radius * rnd_disk3() * (u + v);
+                            auto origin = view.from + de_focus;
 
-                        auto sub_pixel = dx * rnd() + dy * rnd();
-                        auto dir = pixel - origin + sub_pixel;
+                            auto sub_pixel = dx * rnd() + dy * rnd();
+                            auto dir = pixel - origin + sub_pixel;
 
-                        return ray_color(ray3{origin, dir}, max_depth, world);
-                    }
-                );
-                c = sqrt(c / s.size()); // gamma correction
+                            c += ray_color(ray3{origin, dir}, max_depth, world);
+                        }
+                        return c;
+                    },
+                    [](color3 x, color3 y) { return x + y; }
+                ) / samples_per_pixel;
+
+                c = sqrt(c); // gamma correction
 
                 std::cout << to_8bit(c.r()) << ' ' << to_8bit(c.g()) << ' ' << to_8bit(c.b()) << '\n';
             }

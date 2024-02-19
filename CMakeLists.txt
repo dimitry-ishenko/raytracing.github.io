@@ -26,3 +26,4 @@ add_executable(${EX}
     vec.hpp
 )
 target_compile_options(${EX} PUBLIC -O3)
+target_link_libraries(${EX} PUBLIC tbb)
