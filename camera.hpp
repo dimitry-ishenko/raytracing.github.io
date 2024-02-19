@@ -29,7 +29,7 @@ struct view
 
 struct camera
 {
-    int samples_per_pixel = 100;
+    int samples_per_pixel = 500;
     int max_depth = 50;
 
     int img_width = 1200;
