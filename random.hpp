@@ -1,6 +1,7 @@
 #ifndef RANDOM_HPP
 #define RANDOM_HPP
 
+#include "color.hpp"
 #include "sphere.hpp"
 #include "vec.hpp"
 
@@ -39,5 +40,7 @@ inline auto rnd_sphere3()
     for (; len_2(v) > 1; v = vec3{rnd(), rnd(), rnd()});
     return v;
 }
+
+inline auto rnd_color3() { return color3{rnd(), rnd(), rnd()}; }
 
 #endif
