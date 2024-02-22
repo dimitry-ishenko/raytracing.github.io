@@ -16,6 +16,7 @@
 #include <tbb/parallel_reduce.h>
 
 using std::numbers::pi;
+using range = tbb::blocked_range<int>;
 
 struct view
 {
@@ -42,19 +43,20 @@ struct camera
         auto vp_height = 2 * h * view.focus_dist;
         auto vp_width = vp_height * img_width / img_height;
 
-        auto focus_radius = view.focus_dist * std::tan(deg2rad(view.focus_angle / 2));
-
         auto w = unit{view.from - view.at};
         auto u = unit{cross(view.up, w)};
         auto v = unit{cross(w, u)};
 
         auto viewport0 = view.from + (-view.focus_dist * w) + (-vp_width / 2 * u) + (vp_height / 2 * v);
 
+        auto focus_radius = view.focus_dist * std::tan(deg2rad(view.focus_angle / 2));
+        auto focus_disk = [&]{ return focus_radius * rnd_disk3() * (u + v); };
+
         auto dx = vp_width / img_width * u;
         auto dy = -vp_height / img_height * v;
-        auto pixel0 = viewport0 + .5 * (dx + dy);
 
-        rnd_gen rnd{-.5, .5};
+        auto pixel0 = viewport0 + .5 * (dx + dy);
+        auto sub_pixel = [&]{ return (rnd_square3() - .5) * (dx + dy); };
 
         std::cout << "P3\n" << img_width << ' ' << img_height << "\n255\n";
 
@@ -65,22 +67,19 @@ struct camera
             {
                 auto pixel = pixel0 + (i * dx) + (j * dy);
 
-                auto c = tbb::parallel_reduce(tbb::blocked_range<int>{0, samples_per_pixel}, color3{ },
-                    [&](const tbb::blocked_range<int>& r, color3 c)
+                auto c = tbb::parallel_reduce(range{0, samples_per_pixel}, color3{ },
+                    [&](const range& r, color3 c)
                     {
                         for (auto i = r.begin(); i != r.end(); ++i)
                         {
-                            auto de_focus = focus_radius * rnd_disk3() * (u + v);
-                            auto origin = view.from + de_focus;
-
-                            auto sub_pixel = dx * rnd() + dy * rnd();
-                            auto dir = pixel - origin + sub_pixel;
+                            auto origin = view.from + focus_disk();
+                            auto dir = pixel - origin + sub_pixel();
 
                             c += ray_color(ray3{origin, dir}, max_depth, world);
                         }
                         return c;
                     },
-                    [](color3 x, color3 y) { return x + y; }
+                    [](const color3& x, const color3& y){ return x + y; }
                 ) / samples_per_pixel;
 
                 c = sqrt(c); // gamma correction
