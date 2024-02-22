@@ -23,6 +23,8 @@ inline auto rnd()
     return rnd();
 }
 
+inline auto rnd_color3() { return color3{rnd(), rnd(), rnd()}; }
+
 inline auto rnd_disk3()
 {
     static rnd_gen rnd{-1, 1};
@@ -41,6 +43,6 @@ inline auto rnd_sphere3()
     return v;
 }
 
-inline auto rnd_color3() { return color3{rnd(), rnd(), rnd()}; }
+inline auto rnd_square3() { return vec3{rnd(), rnd(), 0}; }
 
 #endif
