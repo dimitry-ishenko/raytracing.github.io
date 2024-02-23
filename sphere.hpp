@@ -36,10 +36,10 @@ struct sphere3 : object
         auto sqrt_d = std::sqrt(d);
 
         auto t = (-h - sqrt_d) / a;
-        if (!ti.surr(t))
+        if (!surr(ti, t))
         {
             t = (-h + sqrt_d) / a;
-            if (!ti.surr(t)) return { };
+            if (!surr(ti, t)) return { };
         }
 
         auto point = ray.at(t);

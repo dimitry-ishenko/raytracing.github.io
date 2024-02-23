@@ -8,8 +8,8 @@ constexpr const auto inf = std::numeric_limits<double>::infinity();
 struct interval
 {
     double min, max;
-
-    constexpr auto surr(double t) const { return min <  t && t <  max; }
 };
+
+constexpr auto surr(const interval& in, double t) { return in.min < t && t < in.max; }
 
 #endif
