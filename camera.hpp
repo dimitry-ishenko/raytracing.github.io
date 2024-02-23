@@ -74,8 +74,9 @@ struct camera
                         {
                             auto origin = view.from + focus_disk();
                             auto dir = pixel - origin + sub_pixel();
+                            auto time = rnd();
 
-                            c += ray_color(ray3{origin, dir}, max_depth, world);
+                            c += ray_color(ray3{origin, dir, time}, max_depth, world);
                         }
                         return c;
                     },

@@ -41,7 +41,7 @@ struct dielec : material
             ref = r_idx * l + (r_idx * cos_th1 - cos_th2) * n;
         }
 
-        return scatter{ ray3{hit.point, ref}, color3{1, 1, 1} };
+        return scatter{ ray3{hit.point, ref, ray.time}, color3{1, 1, 1} };
     }
 };
 

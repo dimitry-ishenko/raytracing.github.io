@@ -26,7 +26,7 @@ struct metal : material
         ref += fuzz * unit{rnd_sphere3()};
         if (dot(ref, hit.norm) < 0) return { };
 
-        return scatter{ ray3{hit.point, ref}, albedo };
+        return scatter{ ray3{hit.point, ref, ray.time}, albedo };
     }
 };
 

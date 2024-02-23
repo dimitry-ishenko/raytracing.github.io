@@ -8,6 +8,7 @@ struct ray3
 {
     point3 origin;
     vec3 dir;
+    double time;
 
     constexpr auto at(double x) const { return origin + x * dir; }
 };

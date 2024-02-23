@@ -26,7 +26,8 @@ int main(int argc, char* argv[])
                 {
                     auto albedo = rnd_color3() * rnd_color3();
                     auto mat_sphere = std::make_shared<lambert>(albedo);
-                    world.children.emplace_back(new sphere3{center, .2, mat_sphere});
+                    auto center1 = center + vec3{0, .5 * rnd(), 0};
+                    world.children.emplace_back(new sphere3{center, center1, .2, mat_sphere});
                 }
                 else if (choice < .95) // metal
                 {
