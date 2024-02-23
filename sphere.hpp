@@ -14,7 +14,7 @@ struct sphere3 : object
     vec3 vel;
 
     sphere3(const point3& center, double radius, std::shared_ptr<material> mat) :
-        center{center}, radius{radius}, mat{std::move(mat)}
+        sphere3{ center, center, radius, std::move(mat) }
     { }
 
     sphere3(const point3& center0, const point3& center1, double radius, std::shared_ptr<material> mat) :
