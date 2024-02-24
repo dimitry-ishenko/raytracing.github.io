@@ -9,6 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(EX ${PROJECT_NAME}-${PROJECT_VERSION})
 add_executable(${EX}
+    aabb.hpp
     array.hpp
     camera.hpp
     color.hpp
