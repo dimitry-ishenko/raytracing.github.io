@@ -1,6 +1,7 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
+#include "aabb.hpp"
 #include "interval.hpp"
 #include "point.hpp"
 #include "ray.hpp"
@@ -24,12 +25,19 @@ struct hit
 
 struct object
 {
+    aabb bbox;
+
     virtual std::optional<hit> get_hit(const ray3&, interval) const = 0;
 };
 
 struct object_list : object
 {
-    std::vector<std::unique_ptr<object>> children;
+    template<typename Child>
+    void add(Child&& child)
+    {
+        children.emplace_back(std::forward<Child>(child));
+        bbox = merge(bbox, children.back()->bbox);
+    }
 
     virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
     {
@@ -45,6 +53,8 @@ struct object_list : object
         return my_hit;
     }
 
+private:
+    std::vector<std::unique_ptr<object>> children;
 };
 
 #endif
