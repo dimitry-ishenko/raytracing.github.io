@@ -153,64 +153,64 @@ template<Array A> struct unit : A
     unit(const A& x, adopt_unit_t) : A{x} { }
 };
 
-template<Array A> const A& to_array(const unit<A>& x) { return x; } 
-template<Array A> A&& to_array(unit<A>&& x) { return x; } 
+template<Array A> const A& to_array(const unit<A>& x) { return x; }
+template<Array A> A&& to_array(unit<A>&& x) { return x; }
 
-template<Array  A> constexpr auto& operator+=(unit<A>& x, const unit<A>& y) = delete;
-template<Array  A> constexpr auto& operator+=(unit<A>& x, dtype<A> q) = delete;
-template<Array  A> constexpr auto& operator-=(unit<A>& x, const unit<A>& y) = delete;
-template<Array  A> constexpr auto& operator-=(unit<A>& x, dtype<A> q) = delete;
-template<Array  A> constexpr auto& operator*=(unit<A>& x, const unit<A>& y) = delete;
-template<Array  A> constexpr auto& operator*=(unit<A>& x, dtype<A> q) = delete;
-template<Array  A> constexpr auto& operator/=(unit<A>& x, const unit<A>& y) = delete;
-template<Array  A> constexpr auto& operator/=(unit<A>& x, dtype<A> q) = delete;
+template<Array A> constexpr auto& operator+=(unit<A>& x, const unit<A>& y) = delete;
+template<Array A> constexpr auto& operator+=(unit<A>& x, dtype<A> q) = delete;
+template<Array A> constexpr auto& operator-=(unit<A>& x, const unit<A>& y) = delete;
+template<Array A> constexpr auto& operator-=(unit<A>& x, dtype<A> q) = delete;
+template<Array A> constexpr auto& operator*=(unit<A>& x, const unit<A>& y) = delete;
+template<Array A> constexpr auto& operator*=(unit<A>& x, dtype<A> q) = delete;
+template<Array A> constexpr auto& operator/=(unit<A>& x, const unit<A>& y) = delete;
+template<Array A> constexpr auto& operator/=(unit<A>& x, dtype<A> q) = delete;
 
 // unary +/-
-template<Array  A> constexpr auto  operator+ (const unit<A>& x) { return unit{+to_array(x), adopt_unit}; }
-template<Array  A> constexpr auto  operator- (const unit<A>& x) { return unit{-to_array(x), adopt_unit}; }
+template<Array A> constexpr auto  operator+ (const unit<A>& x) { return unit{+to_array(x), adopt_unit}; }
+template<Array A> constexpr auto  operator- (const unit<A>& x) { return unit{-to_array(x), adopt_unit}; }
 
-template<Array  A> constexpr auto  operator+ (const unit<A>& x, const unit<A>& y) { return to_array(x) + to_array(y); }
-template<Array  A> constexpr auto  operator+ (const unit<A>& x, const A& y) { return to_array(x) + y; }
-template<Array  A> constexpr auto  operator+ (const A& x, const unit<A>& y) { return x + to_array(y); }
+template<Array A> constexpr auto  operator+ (const unit<A>& x, const unit<A>& y) { return to_array(x) + to_array(y); }
+template<Array A> constexpr auto  operator+ (const unit<A>& x, const A& y) { return to_array(x) + y; }
+template<Array A> constexpr auto  operator+ (const A& x, const unit<A>& y) { return x + to_array(y); }
 
-template<Array  A> constexpr auto  operator+ (const unit<A>& x, dtype<A> q) { return to_array(x) + q; }
-template<Array  A> constexpr auto  operator+ (dtype<A> q, const unit<A>& x) { return q + to_array(x); }
+template<Array A> constexpr auto  operator+ (const unit<A>& x, dtype<A> q) { return to_array(x) + q; }
+template<Array A> constexpr auto  operator+ (dtype<A> q, const unit<A>& x) { return q + to_array(x); }
 
-template<Array  A> constexpr auto  operator- (const unit<A>& x, const unit<A>& y) { return to_array(x) - to_array(y); }
-template<Array  A> constexpr auto  operator- (const unit<A>& x, const A& y) { return to_array(x) - y; }
-template<Array  A> constexpr auto  operator- (const A& x, const unit<A>& y) { return x - to_array(y); }
+template<Array A> constexpr auto  operator- (const unit<A>& x, const unit<A>& y) { return to_array(x) - to_array(y); }
+template<Array A> constexpr auto  operator- (const unit<A>& x, const A& y) { return to_array(x) - y; }
+template<Array A> constexpr auto  operator- (const A& x, const unit<A>& y) { return x - to_array(y); }
 
-template<Array  A> constexpr auto  operator- (const unit<A>& x, dtype<A> q) { return to_array(x) - q; }
-template<Array  A> constexpr auto  operator- (dtype<A> q, const unit<A>& x) { return q - to_array(x); }
+template<Array A> constexpr auto  operator- (const unit<A>& x, dtype<A> q) { return to_array(x) - q; }
+template<Array A> constexpr auto  operator- (dtype<A> q, const unit<A>& x) { return q - to_array(x); }
 
-template<Array  A> constexpr auto  operator* (const unit<A>& x, const unit<A>& y) { return to_array(x) * to_array(y); }
-template<Array  A> constexpr auto  operator* (const unit<A>& x, const A& y) { return to_array(x) * y; }
-template<Array  A> constexpr auto  operator* (const A& x, const unit<A>& y) { return x * to_array(y); }
+template<Array A> constexpr auto  operator* (const unit<A>& x, const unit<A>& y) { return to_array(x) * to_array(y); }
+template<Array A> constexpr auto  operator* (const unit<A>& x, const A& y) { return to_array(x) * y; }
+template<Array A> constexpr auto  operator* (const A& x, const unit<A>& y) { return x * to_array(y); }
 
-template<Array  A> constexpr auto  operator* (const unit<A>& x, dtype<A> q) { return to_array(x) * q; }
-template<Array  A> constexpr auto  operator* (dtype<A> q, const unit<A>& x) { return q * to_array(x); }
+template<Array A> constexpr auto  operator* (const unit<A>& x, dtype<A> q) { return to_array(x) * q; }
+template<Array A> constexpr auto  operator* (dtype<A> q, const unit<A>& x) { return q * to_array(x); }
 
-template<Array  A> constexpr auto  operator/ (const unit<A>& x, const unit<A>& y) { return to_array(x) / to_array(y); }
-template<Array  A> constexpr auto  operator/ (const unit<A>& x, const A& y) { return to_array(x) / y; }
-template<Array  A> constexpr auto  operator/ (const A& x, const unit<A>& y) { return x / to_array(y); }
+template<Array A> constexpr auto  operator/ (const unit<A>& x, const unit<A>& y) { return to_array(x) / to_array(y); }
+template<Array A> constexpr auto  operator/ (const unit<A>& x, const A& y) { return to_array(x) / y; }
+template<Array A> constexpr auto  operator/ (const A& x, const unit<A>& y) { return x / to_array(y); }
 
-template<Array  A> constexpr auto  operator/ (const unit<A>& x, dtype<A> q) { return to_array(x) / q; }
-template<Array  A> constexpr auto  operator/ (dtype<A> q, const unit<A>& x) { return q / to_array(x); }
+template<Array A> constexpr auto  operator/ (const unit<A>& x, dtype<A> q) { return to_array(x) / q; }
+template<Array A> constexpr auto  operator/ (dtype<A> q, const unit<A>& x) { return q / to_array(x); }
 
-template<Array  A> constexpr auto  cross(const unit<A>& x, const unit<A>& y) { return unit{cross(to_array(x), to_array(y)), adopt_unit}; }
-template<Array  A> constexpr auto  cross(const unit<A>& x, const A& y) { return cross(to_array(x), y); }
-template<Array  A> constexpr auto  cross(const A& x, const unit<A>& y) { return cross(x, to_array(y)); }
+template<Array A> constexpr auto  cross(const unit<A>& x, const unit<A>& y) { return unit{cross(to_array(x), to_array(y)), adopt_unit}; }
+template<Array A> constexpr auto  cross(const unit<A>& x, const A& y) { return cross(to_array(x), y); }
+template<Array A> constexpr auto  cross(const A& x, const unit<A>& y) { return cross(x, to_array(y)); }
 
-template<Array  A> constexpr auto  dist(const unit<A>& x, const A& y) { return dist(to_array(x), y); }
-template<Array  A> constexpr auto  dist(const A& x, const unit<A>& y) { return dist(x, to_array(y)); }
+template<Array A> constexpr auto  dist(const unit<A>& x, const A& y) { return dist(to_array(x), y); }
+template<Array A> constexpr auto  dist(const A& x, const unit<A>& y) { return dist(x, to_array(y)); }
 
-template<Array  A> constexpr auto  dist_2(const unit<A>& x, const A& y) { return dist_2(to_array(x), y); }
-template<Array  A> constexpr auto  dist_2(const A& x, const unit<A>& y) { return dist_2(x, to_array(y)); }
+template<Array A> constexpr auto  dist_2(const unit<A>& x, const A& y) { return dist_2(to_array(x), y); }
+template<Array A> constexpr auto  dist_2(const A& x, const unit<A>& y) { return dist_2(x, to_array(y)); }
 
-template<Array  A> constexpr auto  dot(const unit<A>& x, const A& y) { return dot(to_array(x), y); }
-template<Array  A> constexpr auto  dot(const A& x, const unit<A>& y) { return dot(x, to_array(y)); }
+template<Array A> constexpr auto  dot(const unit<A>& x, const A& y) { return dot(to_array(x), y); }
+template<Array A> constexpr auto  dot(const A& x, const unit<A>& y) { return dot(x, to_array(y)); }
 
-template<Array  A> constexpr auto  lerp(const unit<A>& x, const A& y, dtype<A> t) { return lerp(to_array(x), y, t); }
-template<Array  A> constexpr auto  lerp(const A& x, const unit<A>& y, dtype<A> t) { return lerp(x, to_array(y), t); }
+template<Array A> constexpr auto  lerp(const unit<A>& x, const A& y, dtype<A> t) { return lerp(to_array(x), y, t); }
+template<Array A> constexpr auto  lerp(const A& x, const unit<A>& y, dtype<A> t) { return lerp(x, to_array(y), t); }
 
 #endif
