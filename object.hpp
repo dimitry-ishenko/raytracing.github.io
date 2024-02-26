@@ -32,10 +32,9 @@ struct object
 
 struct object_list : object
 {
-    template<typename Child>
-    void add(Child&& child)
+    void add(object* child)
     {
-        children.emplace_back(std::forward<Child>(child));
+        children.emplace_back(child);
         bbox = merge(bbox, children.back()->bbox);
     }
 
