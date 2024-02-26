@@ -13,19 +13,17 @@ struct aabb
     static aabb from(const point3& a, const point3& b)
     {
         return aabb{
-            to_interval(a.x(), b.x()),
-            to_interval(a.y(), b.y()),
-            to_interval(a.z(), b.z()),
+            padded(a.x(), b.x()),
+            padded(a.y(), b.y()),
+            padded(a.z(), b.z()),
         };
     }
 
 private:
-    static interval to_interval(double m, double n)
+    static interval padded(double m, double n)
     {
         auto [min, max] = std::minmax(m, n);
-
-        interval in{min, max};
-        return len(in) < .0001 ? pad(in, .0001) : in;
+        return padded_if_less(interval{min, max}, .0001);
     }
 };
 
