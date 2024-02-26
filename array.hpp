@@ -1,24 +1,15 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
+#include <array>
 #include <cmath>
 #include <concepts>
-#include <cstddef> // std::size_t
 #include <type_traits>
 
 template<typename D, std::size_t N>
-struct array
-{
-    using dtype = D;
-    D data[N];
+using array = std::array<D, N>;
 
-    constexpr auto& operator[](std::size_t i) { return data[i]; }
-    constexpr const auto& operator[](std::size_t i) const { return data[i]; }
-
-    static constexpr std::size_t size() { return N; }
-};
-
-template<typename A> using dtype = typename A::dtype;
+template<typename A> using dtype = typename A::value_type;
 
 template<typename A> concept Array2 = std::derived_from< A, array<dtype<A>, 2> >;
 template<typename A> concept Array3 = std::derived_from< A, array<dtype<A>, 3> >;
