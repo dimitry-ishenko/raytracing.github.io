@@ -16,7 +16,7 @@ struct material;
 struct hit
 {
     point3 point;
-    unit<vec3> norm;
+    vec3 norm; // unit vec
     double t;
 
     bool front;

@@ -18,8 +18,8 @@ struct dielec : material
     virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
     {
         // https://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
-        auto l = unit{ray.dir};
-        auto n = unit{hit.norm};
+        auto l = unit(ray.dir);
+        auto n = hit.norm;
         auto r_idx = hit.front ? 1 / refrac : refrac;
 
         auto cos_th1 = dot(-n, l);

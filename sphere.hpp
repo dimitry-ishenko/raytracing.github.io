@@ -48,7 +48,7 @@ struct sphere3 : object
         }
 
         auto point = ray.at(t);
-        auto norm  = unit{(point - center_t) / radius, adopt_unit};
+        auto norm  = (point - center_t) / radius;
         auto front = dot(ray.dir, norm) < 0;
 
         return hit{ point, front ? norm : -norm, t, front, mat };

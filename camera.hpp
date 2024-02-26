@@ -43,9 +43,9 @@ struct camera
         auto vp_height = 2 * h * view.focus_dist;
         auto vp_width = vp_height * img_width / img_height;
 
-        auto w = unit{view.from - view.at};
-        auto u = unit{cross(view.up, w)};
-        auto v = unit{cross(w, u)};
+        auto w = unit(view.from - view.at);
+        auto u = unit(cross(view.up, w));
+        auto v = unit(cross(w, u));
 
         auto viewport0 = view.from + (-view.focus_dist * w) + (-vp_width / 2 * u) + (vp_height / 2 * v);
 
