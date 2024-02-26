@@ -1,15 +1,14 @@
 #ifndef AABB_HPP
 #define AABB_HPP
 
+#include "array.hpp"
 #include "interval.hpp"
 #include "point.hpp"
 
 #include <algorithm>
 
-struct aabb
+struct aabb : array<interval, 3>
 {
-    interval ix, iy, iz;
-
     static aabb from(const point3& a, const point3& b)
     {
         return aabb{
@@ -30,9 +29,9 @@ private:
 auto merge(const aabb& box0, const aabb& box1)
 {
     return aabb{
-        merge(box0.ix, box1.ix),
-        merge(box0.iy, box1.iy),
-        merge(box0.iz, box1.iz),
+        merge(box0[0], box1[0]),
+        merge(box0[1], box1[1]),
+        merge(box0[2], box1[2]),
     };
 }
 
