@@ -11,18 +11,17 @@ struct aabb : array<interval, 3>
 {
     static aabb from(const point3& a, const point3& b)
     {
+        auto padded = [](double m, double n)
+        {
+            auto [min, max] = std::minmax(m, n);
+            return padded_if_less(interval{min, max}, .0001);
+        };
+
         return aabb{
             padded(a.x(), b.x()),
             padded(a.y(), b.y()),
             padded(a.z(), b.z()),
         };
-    }
-
-private:
-    static interval padded(double m, double n)
-    {
-        auto [min, max] = std::minmax(m, n);
-        return padded_if_less(interval{min, max}, .0001);
     }
 };
 
