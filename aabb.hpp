@@ -4,11 +4,29 @@
 #include "array.hpp"
 #include "interval.hpp"
 #include "point.hpp"
+#include "ray.hpp"
 
 #include <algorithm>
 
 struct aabb : array<interval, 3>
 {
+    bool is_hit(const ray3& ray, interval ti) const
+    {
+        for (std::size_t i = 0; i < size(); ++i)
+        {
+            auto [min, max] = std::minmax(
+                ((*this)[i].min - ray.origin[i]) / ray.dir[i],
+                ((*this)[i].max - ray.origin[i]) / ray.dir[i]
+            );
+
+            ti.min = std::max(ti.min, min);
+            ti.max = std::min(ti.max, max);
+
+            if (ti.max <= ti.min) return false;
+        }
+        return true;
+    }
+
     static aabb from(const point3& a, const point3& b)
     {
         auto padded = [](double m, double n)
