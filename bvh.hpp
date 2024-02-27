@@ -47,9 +47,8 @@ private:
         default:
             std::sort(begin, end, less);
 
-            auto mid = begin + size / 2;
-            child_0.reset(new bvh_node{ begin, mid });
-            child_1.reset(new bvh_node{ mid,   end });
+            child_0.reset(new bvh_node{ begin, begin + size / 2 });
+            child_1.reset(new bvh_node{ begin + size / 2,   end });
         }
 
         bbox = merge(child_0->bbox, child_1->bbox);
