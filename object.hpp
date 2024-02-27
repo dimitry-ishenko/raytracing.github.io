@@ -2,29 +2,12 @@
 #define OBJECT_HPP
 
 #include "aabb.hpp"
+#include "hit.hpp"
 #include "interval.hpp"
-#include "point.hpp"
 #include "ray.hpp"
-#include "vec.hpp"
 
 #include <memory>
-#include <optional>
 #include <vector>
-
-struct material;
-using shared_material = std::shared_ptr<material>;
-
-struct hit
-{
-    point3 point;
-    vec3 norm; // unit vec
-    double t;
-
-    bool front;
-    shared_material mat;
-};
-
-using optional_hit = std::optional<hit>;
 
 struct object
 {

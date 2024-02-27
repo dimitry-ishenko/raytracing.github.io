@@ -2,6 +2,7 @@
 #define SPHERE_HPP
 
 #include "aabb.hpp"
+#include "hit.hpp"
 #include "interval.hpp"
 #include "material.hpp"
 #include "object.hpp"

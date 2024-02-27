@@ -15,6 +15,7 @@ add_executable(${EX}
     camera.hpp
     color.hpp
     dielec.hpp
+    hit.hpp
     interval.hpp
     lambert.hpp
     main.cpp

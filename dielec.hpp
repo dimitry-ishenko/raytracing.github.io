@@ -2,7 +2,7 @@
 #define DIELEC_HPP
 
 #include "color.hpp"
-#include "object.hpp" // hit
+#include "hit.hpp"
 #include "material.hpp"
 #include "random.hpp"
 #include "ray.hpp"

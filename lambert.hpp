@@ -2,8 +2,8 @@
 #define LAMBERT_HPP
 
 #include "color.hpp"
+#include "hit.hpp"
 #include "material.hpp"
-#include "object.hpp" // hit
 #include "random.hpp"
 #include "ray.hpp"
 

@@ -1,6 +1,7 @@
 #ifndef BVH_HPP
 #define BVH_HPP
 
+#include "hit.hpp"
 #include "interval.hpp"
 #include "object.hpp"
 #include "ray.hpp"
