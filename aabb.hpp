@@ -12,20 +12,18 @@ struct aabb : array<interval, 3>
 {
     auto longest_axis() const
     {
-        auto& me = *this;
-        return len(me[0]) > len(me[1])
-            ? (len(me[0]) > len(me[2]) ? 0 : 2)
-            : (len(me[1]) > len(me[2]) ? 1 : 2);
+        return len(data()[0]) > len(data()[1])
+            ? (len(data()[0]) > len(data()[2]) ? 0 : 2)
+            : (len(data()[1]) > len(data()[2]) ? 1 : 2);
     }
 
     bool is_hit(const ray3& ray, interval ti) const
     {
-        auto& me = *this;
         for (std::size_t i = 0; i < size(); ++i)
         {
             auto [min, max] = std::minmax({
-                (me[i].min - ray.origin[i]) / ray.dir[i],
-                (me[i].max - ray.origin[i]) / ray.dir[i]
+                (data()[i].min - ray.origin[i]) / ray.dir[i],
+                (data()[i].max - ray.origin[i]) / ray.dir[i]
             });
 
             ti.min = std::max(ti.min, min);
