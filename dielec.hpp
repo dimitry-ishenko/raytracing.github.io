@@ -5,6 +5,7 @@
 #include "object.hpp" // hit
 #include "material.hpp"
 #include "random.hpp"
+#include "ray.hpp"
 #include "vec.hpp"
 
 #include <cmath>
@@ -15,7 +16,7 @@ struct dielec : material
 
     explicit dielec(double refrac) : refrac{refrac} { }
 
-    virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
+    virtual optional_scatter get_scatter(const ray3& ray, const hit& hit) const override
     {
         // https://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
         auto l = unit(ray.dir);

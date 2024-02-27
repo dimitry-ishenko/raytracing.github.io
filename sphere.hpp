@@ -1,23 +1,26 @@
 #ifndef SPHERE_HPP
 #define SPHERE_HPP
 
+#include "aabb.hpp"
+#include "interval.hpp"
 #include "material.hpp"
 #include "object.hpp"
 #include "point.hpp"
+#include "ray.hpp"
 #include "vec.hpp"
 
 struct sphere3 : object
 {
     point3 center;
     double radius;
-    std::shared_ptr<material> mat;
+    shared_material mat;
     vec3 vel;
 
-    sphere3(const point3& center, double radius, std::shared_ptr<material> mat) :
+    sphere3(const point3& center, double radius, shared_material mat) :
         sphere3{ center, center, radius, std::move(mat) }
     { }
 
-    sphere3(const point3& center0, const point3& center1, double radius, std::shared_ptr<material> mat) :
+    sphere3(const point3& center0, const point3& center1, double radius, shared_material mat) :
         center{center0}, radius{radius}, mat{std::move(mat)}, vel{center1 - center0}
     {
         auto rvec = vec3{radius, radius, radius};
@@ -26,7 +29,7 @@ struct sphere3 : object
         bbox = merge(box0, box1);
     }
 
-    virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
+    virtual optional_hit get_hit(const ray3& ray, interval ti) const override
     {
         auto center_t = center + vel * ray.time;
         auto rel = ray.origin - center_t;

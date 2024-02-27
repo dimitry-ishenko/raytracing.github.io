@@ -2,7 +2,6 @@
 #define RANDOM_HPP
 
 #include "color.hpp"
-#include "sphere.hpp"
 #include "vec.hpp"
 
 #include <random>

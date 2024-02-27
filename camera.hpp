@@ -2,6 +2,7 @@
 #define CAMERA_HPP
 
 #include "color.hpp"
+#include "material.hpp"
 #include "object.hpp"
 #include "point.hpp"
 #include "ray.hpp"
@@ -9,13 +10,12 @@
 #include "vec.hpp"
 
 #include <algorithm> // std::clamp
-#include <cmath> // std::lerp
+#include <cmath>
 #include <iostream>
 #include <numbers>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_reduce.h>
 
-using std::numbers::pi;
 using range = tbb::blocked_range<int>;
 
 struct view
@@ -112,7 +112,7 @@ private:
 
     constexpr static int to_8bit(double v) { return std::lerp(0., 255., std::clamp(v, 0., 1.)) + .5; }
 
-    constexpr static double deg2rad(double deg) { return deg * pi / 180; }
+    constexpr static double deg2rad(double deg) { return deg * std::numbers::pi / 180; }
 };
 
 #endif

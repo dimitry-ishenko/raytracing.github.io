@@ -5,7 +5,7 @@
 #include "material.hpp"
 #include "object.hpp" // hit
 #include "random.hpp"
-#include "vec.hpp"
+#include "ray.hpp"
 
 struct metal : material
 {
@@ -14,7 +14,7 @@ struct metal : material
 
     metal(const color3& albedo, double fuzz) : albedo{albedo}, fuzz{fuzz} { }
 
-    virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
+    virtual optional_scatter get_scatter(const ray3& ray, const hit& hit) const override
     {
         // https://en.wikipedia.org/wiki/Snell%27s_law#Vector_form
         auto l = ray.dir;

@@ -1,10 +1,11 @@
 #ifndef BVH_HPP
 #define BVH_HPP
 
+#include "interval.hpp"
 #include "object.hpp"
+#include "ray.hpp"
 
 #include <algorithm>
-#include <iterator>
 #include <memory>
 
 struct bvh_node : object
@@ -13,7 +14,7 @@ struct bvh_node : object
         bvh_node{world.begin(), world.end()}
     { }
 
-    virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const
+    virtual optional_hit get_hit(const ray3& ray, interval ti) const
     {
         if (!bbox.is_hit(ray, ti)) return { };
 
@@ -25,15 +26,14 @@ struct bvh_node : object
     }
 
 private:
-    template<typename Iter>
-    bvh_node(Iter begin, Iter end)
+    bvh_node(object_list::iterator begin, object_list::iterator end)
     {
-        std::for_each(begin, end, [&](auto&& el) { bbox = merge(bbox, el->bbox); });
+        std::for_each(begin, end, [&](auto&& e) { bbox = merge(bbox, e->bbox); });
 
         auto ax = bbox.longest_axis();
-        auto less = [&](auto&& lhs, auto&& rhs){ return lhs->bbox[ax].min < rhs->bbox[ax].min; };
+        auto less = [&](auto&& l, auto&& r){ return l->bbox[ax].min < r->bbox[ax].min; };
 
-        switch (auto size = std::distance(begin, end))
+        switch (auto size = end - begin)
         {
         case 1:
             child_0 = child_1 = *begin;
@@ -53,7 +53,7 @@ private:
         }
     }
 
-    std::shared_ptr<object> child_0, child_1;
+    shared_object child_0, child_1;
 };
 
 #endif

@@ -14,9 +14,11 @@ struct scatter
     color3 atten;
 };
 
+using optional_scatter = std::optional<scatter>;
+
 struct material
 {
-    virtual std::optional<scatter> get_scatter(const ray3& ray, const hit&) const = 0;
+    virtual optional_scatter get_scatter(const ray3& ray, const hit&) const = 0;
 };
 
 #endif

@@ -12,6 +12,7 @@
 #include <vector>
 
 struct material;
+using shared_material = std::shared_ptr<material>;
 
 struct hit
 {
@@ -20,16 +21,19 @@ struct hit
     double t;
 
     bool front;
-    std::shared_ptr<material> mat;
+    shared_material mat;
 };
+
+using optional_hit = std::optional<hit>;
 
 struct object
 {
     aabb bbox;
 
-    virtual std::optional<hit> get_hit(const ray3&, interval) const = 0;
+    virtual optional_hit get_hit(const ray3&, interval) const = 0;
 };
 
-using object_list = std::vector<std::shared_ptr<object>>;
+using shared_object = std::shared_ptr<object>;
+using object_list = std::vector<shared_object>;
 
 #endif
