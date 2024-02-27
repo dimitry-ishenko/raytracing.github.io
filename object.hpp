@@ -32,12 +32,6 @@ struct object
 
 struct object_list : object
 {
-    void add(object* child)
-    {
-        children.emplace_back(child);
-        bbox = merge(bbox, children.back()->bbox);
-    }
-
     virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
     {
         std::optional<hit> my_hit;
@@ -52,7 +46,6 @@ struct object_list : object
         return my_hit;
     }
 
-private:
     std::vector<std::unique_ptr<object>> children;
 };
 
