@@ -46,7 +46,7 @@ struct object_list : object
         return my_hit;
     }
 
-    std::vector<std::unique_ptr<object>> children;
+    std::vector<std::shared_ptr<object>> children;
 };
 
 #endif
