@@ -36,7 +36,7 @@ struct camera
     int img_width = 1200;
     int img_height = img_width * 9 / 16;
 
-    void render(const object_list& world, const view& view) const
+    void render(const object& world, const view& view) const
     {
         auto h = std::tan(deg2rad(view.field) / 2);
 
@@ -92,7 +92,7 @@ struct camera
     }
 
 private:
-    static color3 ray_color(const ray3& ray, int depth, const object_list& world)
+    static color3 ray_color(const ray3& ray, int depth, const object& world)
     {
         if (!depth) return { };
 
