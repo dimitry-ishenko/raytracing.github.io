@@ -1,3 +1,4 @@
+#include "bvh.hpp"
 #include "camera.hpp"
 #include "dielec.hpp"
 #include "lambert.hpp"
@@ -61,7 +62,7 @@ int main(int argc, char* argv[])
     view.focus_angle = .6;
     view.focus_dist = 10;
 
-    camera{ }.render(world, view);
+    camera{ }.render(bvh_node{std::move(world)}, view);
 
     return 0;
 }
