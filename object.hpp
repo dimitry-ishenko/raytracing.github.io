@@ -30,13 +30,13 @@ struct object
     virtual std::optional<hit> get_hit(const ray3&, interval) const = 0;
 };
 
-struct object_list : object
+struct object_list : object, std::vector<std::shared_ptr<object>>
 {
     virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
     {
         std::optional<hit> my_hit;
 
-        for (const auto& child : children)
+        for (const auto& child : *this)
             if (auto hit = child->get_hit(ray, ti))
             {
                 ti.max = hit->t;
@@ -45,8 +45,6 @@ struct object_list : object
 
         return my_hit;
     }
-
-    std::vector<std::shared_ptr<object>> children;
 };
 
 #endif
