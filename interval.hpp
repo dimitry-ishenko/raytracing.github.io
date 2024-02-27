@@ -8,7 +8,7 @@ constexpr const auto inf = std::numeric_limits<double>::infinity();
 
 struct interval
 {
-    double min, max;
+    double min = +inf, max = -inf;
 };
 
 constexpr auto len(const interval& in) { return in.max - in.min; }
