@@ -2,7 +2,6 @@
 #define BVH_HPP
 
 #include "object.hpp"
-#include "random.hpp"
 
 #include <algorithm>
 #include <iterator>
@@ -29,8 +28,10 @@ private:
     template<typename Iter>
     bvh_node(Iter begin, Iter end)
     {
-        static rnd_gen rnd{0, 3};
-        auto less = [ax = rnd()](auto&& l, auto&& r) { return l->bbox[ax].min < r->bbox[ax].min; };
+        std::for_each(begin, end, [&](auto&& el) { bbox = merge(bbox, el->bbox); });
+
+        auto ax = bbox.longest_axis();
+        auto less = [&](auto&& lhs, auto&& rhs){ return lhs->bbox[ax].min < rhs->bbox[ax].min; };
 
         switch (auto size = std::distance(begin, end))
         {
@@ -50,8 +51,6 @@ private:
             child_0.reset(new bvh_node{ begin, begin + size / 2 });
             child_1.reset(new bvh_node{ begin + size / 2,   end });
         }
-
-        bbox = merge(child_0->bbox, child_1->bbox);
     }
 
     std::shared_ptr<object> child_0, child_1;
