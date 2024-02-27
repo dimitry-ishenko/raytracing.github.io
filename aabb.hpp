@@ -14,10 +14,10 @@ struct aabb : array<interval, 3>
     {
         for (std::size_t i = 0; i < size(); ++i)
         {
-            auto [min, max] = std::minmax(
+            auto [min, max] = std::minmax({
                 ((*this)[i].min - ray.origin[i]) / ray.dir[i],
                 ((*this)[i].max - ray.origin[i]) / ray.dir[i]
-            );
+            });
 
             ti.min = std::max(ti.min, min);
             ti.max = std::min(ti.max, max);
