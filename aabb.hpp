@@ -12,11 +12,12 @@ struct aabb : array<interval, 3>
 {
     bool is_hit(const ray3& ray, interval ti) const
     {
+        auto& me = *this;
         for (std::size_t i = 0; i < size(); ++i)
         {
             auto [min, max] = std::minmax({
-                ((*this)[i].min - ray.origin[i]) / ray.dir[i],
-                ((*this)[i].max - ray.origin[i]) / ray.dir[i]
+                (me[i].min - ray.origin[i]) / ray.dir[i],
+                (me[i].max - ray.origin[i]) / ray.dir[i]
             });
 
             ti.min = std::max(ti.min, min);
