@@ -10,6 +10,14 @@
 
 struct aabb : array<interval, 3>
 {
+    auto longest_axis() const
+    {
+        auto& me = *this;
+        return len(me[0]) > len(me[1])
+            ? (len(me[0]) > len(me[2]) ? 0 : 2)
+            : (len(me[1]) > len(me[2]) ? 1 : 2);
+    }
+
     bool is_hit(const ray3& ray, interval ti) const
     {
         auto& me = *this;
