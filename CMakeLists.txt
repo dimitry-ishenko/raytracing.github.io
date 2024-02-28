@@ -13,6 +13,7 @@ add_executable(${EX}
     array.hpp
     bvh.hpp
     camera.hpp
+    checker.hpp
     color.hpp
     dielec.hpp
     hit.hpp
