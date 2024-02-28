@@ -15,6 +15,7 @@ struct hit
 
     bool front;
     shared_material mat;
+    point2 uv;
 };
 
 using optional_hit = std::optional<hit>;
