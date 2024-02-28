@@ -26,6 +26,7 @@ add_executable(${EX}
     random.hpp
     ray.hpp
     sphere.hpp
+    texture.hpp
     vec.hpp
 )
 target_compile_options(${EX} PUBLIC -O3)
