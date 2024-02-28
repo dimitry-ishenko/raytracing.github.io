@@ -1,5 +1,6 @@
 #include "bvh.hpp"
 #include "camera.hpp"
+#include "checker.hpp"
 #include "color.hpp"
 #include "dielec.hpp"
 #include "lambert.hpp"
@@ -8,12 +9,14 @@
 #include "point.hpp"
 #include "random.hpp"
 #include "sphere.hpp"
+#include "texture.hpp"
 
 int main(int argc, char* argv[])
 {
     object_list world;
 
-    world.emplace_back(new sphere3{ point3{0, -1000, 0}, 1000, std::make_shared<lambert>(color3{.5, .5, .5}) });
+    auto tex = std::make_shared<checker>(.32, color3{.2, .3, .1}, color3{.9, .9, .9});
+    world.emplace_back(new sphere3{ point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) });
 
     for (int a = -11; a < 11; ++a)
         for (int b = -11; b < 11; ++b)
