@@ -25,6 +25,7 @@ add_executable(${EX}
     point.hpp
     random.hpp
     ray.hpp
+    solid.hpp
     sphere.hpp
     texture.hpp
     vec.hpp
