@@ -16,7 +16,7 @@ int main()
     object_list world;
     view view;
 
-#if 1
+#if 0
     auto tex = std::make_shared<checker>(.32, color3{.2, .3, .1}, color3{.9, .9, .9});
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
 
@@ -56,6 +56,20 @@ int main()
     view.up    = vec3  { 0, 1, 0};
     view.field = 20;
     view.focus_angle = .6;
+    view.focus_dist = 10;
+#endif
+
+#if 1
+    auto tex = std::make_shared<checker>(.32, color3{.2, .3, .1}, color3{.9, .9, .9});
+
+    world.push_back(std::make_shared<sphere3>( point3{0, -10, 0}, 10, std::make_shared<lambert>(tex) ));
+    world.push_back(std::make_shared<sphere3>( point3{0,  10, 0}, 10, std::make_shared<lambert>(tex) ));
+
+    view.from  = point3{13, 2, 3};
+    view.at    = point3{ 0, 0, 0};
+    view.up    = vec3  { 0, 1, 0};
+    view.field = 20;
+    view.focus_angle = 0;
     view.focus_dist = 10;
 #endif
 
