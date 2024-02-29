@@ -2,6 +2,7 @@
 #define CAMERA_HPP
 
 #include "color.hpp"
+#include "image.hpp"
 #include "material.hpp"
 #include "object.hpp"
 #include "point.hpp"
@@ -9,13 +10,13 @@
 #include "random.hpp"
 #include "vec.hpp"
 
-#include <algorithm> // std::clamp
 #include <cmath>
 #include <iostream>
 #include <numbers>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_reduce.h>
 
+using std::numbers::pi;
 using range = tbb::blocked_range<int>;
 
 struct view
@@ -33,15 +34,15 @@ struct camera
     int samples_per_pixel = 500;
     int max_depth = 50;
 
-    int img_width = 1200;
-    int img_height = img_width * 9 / 16;
+    int width = 1200;
+    int height = width * 9 / 16;
 
-    void render(const object& world, const view& view) const
+    image render(const object& world, const view& view) const
     {
         auto h = std::tan(deg2rad(view.field) / 2);
 
         auto vp_height = 2 * h * view.focus_dist;
-        auto vp_width = vp_height * img_width / img_height;
+        auto vp_width = vp_height * width / height;
 
         auto w = unit(view.from - view.at);
         auto u = unit(cross(view.up, w));
@@ -52,20 +53,21 @@ struct camera
         auto focus_radius = view.focus_dist * std::tan(deg2rad(view.focus_angle / 2));
         auto focus_disk = [&]{ return focus_radius * rnd_disk3() * (u + v); };
 
-        auto dx = vp_width / img_width * u;
-        auto dy = -vp_height / img_height * v;
+        auto dx = vp_width / width * u;
+        auto dy = -vp_height / height * v;
 
         auto pixel0 = viewport0 + .5 * (dx + dy);
         auto sub_pixel = [&]{ return (rnd_square3() - .5) * (dx + dy); };
 
-        std::cout << "P3\n" << img_width << ' ' << img_height << "\n255\n";
+        image image{width, height};
 
-        for (int j = 0; j < img_height; ++j)
+        auto ci = image.pixel.begin();
+        for (int y = 0; y < height; ++y)
         {
-            std::cerr << "\rRemaining: " << (img_height - j) << ' ' << std::flush;
-            for (int i = 0; i < img_width; ++i)
+            std::cerr << "\rRemaining: " << (height - y) << ' ' << std::flush;
+            for (int x = 0; x < width; ++x)
             {
-                auto pixel = pixel0 + (i * dx) + (j * dy);
+                auto pixel = pixel0 + (x * dx) + (y * dy);
 
                 auto c = tbb::parallel_reduce(range{0, samples_per_pixel}, color3{ },
                     [&](const range& r, color3 c)
@@ -81,14 +83,14 @@ struct camera
                         return c;
                     },
                     [](const color3& x, const color3& y){ return x + y; }
-                ) / samples_per_pixel;
+                );
 
-                c = sqrt(c); // gamma correction
-
-                std::cout << to_8bit(c.r()) << ' ' << to_8bit(c.g()) << ' ' << to_8bit(c.b()) << '\n';
+                *ci++ = sqrt(c / samples_per_pixel); // sqrt = gamma correction
             }
         }
         std::cerr << "\rDone.            " << std::endl;
+
+        return image;
     }
 
 private:
@@ -110,9 +112,7 @@ private:
         return lerp(white, blue, t);
     }
 
-    constexpr static int to_8bit(double v) { return std::lerp(0., 255., std::clamp(v, 0., 1.)) + .5; }
-
-    constexpr static double deg2rad(double deg) { return deg * std::numbers::pi / 180; }
+    constexpr static double deg2rad(double deg) { return deg * pi / 180; }
 };
 
 #endif

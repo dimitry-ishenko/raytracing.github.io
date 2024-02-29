@@ -3,6 +3,7 @@
 #include "checker.hpp"
 #include "color.hpp"
 #include "dielec.hpp"
+#include "image.hpp"
 #include "lambert.hpp"
 #include "metal.hpp"
 #include "object.hpp"
@@ -11,8 +12,16 @@
 #include "sphere.hpp"
 #include "texture.hpp"
 
-int main()
+#include <iostream>
+
+int main(int argc, char* argv[])
 {
+    if (argc != 2)
+    {
+        std::cerr << "Usage: " << argv[0] << " <path>\n";
+        return 1;
+    }
+
     object_list world;
     view view;
 
@@ -73,7 +82,8 @@ int main()
     view.focus_dist = 10;
 #endif
 
-    camera{ }.render(bvh_node{std::move(world)}, view);
+    auto image = camera{ }.render(bvh_node{std::move(world)}, view);
+    image.save_to(argv[1]);
 
     return 0;
 }
