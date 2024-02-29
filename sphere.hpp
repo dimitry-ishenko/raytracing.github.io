@@ -61,11 +61,10 @@ struct sphere3 : object
 
         auto front = dot(ray.dir, norm) < 0;
 
-        auto th = std::acos(-norm.y());
-        auto ph = std::atan2(-norm.z(), norm.x()) + pi;
-        point2 uv{ ph / (2 * pi), th / pi };
+        auto u = std::atan2(-norm.z(), norm.x()) / (2 * pi) + .5;
+        auto v = std::acos(-norm.y()) / pi;
 
-        return hit{ point, front ? norm : -norm, t, front, mat, uv };
+        return hit{ point, front ? norm : -norm, t, front, mat, point2{u, v} };
     }
 };
 
