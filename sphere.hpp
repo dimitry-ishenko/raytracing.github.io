@@ -10,6 +10,11 @@
 #include "ray.hpp"
 #include "vec.hpp"
 
+#include <cmath>
+#include <numbers>
+
+using std::numbers::pi;
+
 struct sphere3 : object
 {
     point3 center;
@@ -53,9 +58,14 @@ struct sphere3 : object
 
         auto point = ray.at(t);
         auto norm  = (point - center_t) / radius;
+
         auto front = dot(ray.dir, norm) < 0;
 
-        return hit{ point, front ? norm : -norm, t, front, mat };
+        auto th = std::acos(-norm.y());
+        auto ph = std::atan2(-norm.z(), norm.x()) + pi;
+        point2 uv{ ph / (2 * pi), th / pi };
+
+        return hit{ point, front ? norm : -norm, t, front, mat, uv };
     }
 };
 

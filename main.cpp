@@ -60,7 +60,7 @@ int main()
 #endif
 
 #if 1
-    auto tex = std::make_shared<checker>(.32, color3{.2, .3, .1}, color3{.9, .9, .9});
+    auto tex = std::make_shared<checker>(.032, color3{.2, .3, .1}, color3{.9, .9, .9});
 
     world.push_back(std::make_shared<sphere3>( point3{0, -10, 0}, 10, std::make_shared<lambert>(tex) ));
     world.push_back(std::make_shared<sphere3>( point3{0,  10, 0}, 10, std::make_shared<lambert>(tex) ));
