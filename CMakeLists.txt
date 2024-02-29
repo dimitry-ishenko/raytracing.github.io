@@ -17,6 +17,7 @@ add_executable(${EX}
     color.hpp
     dielec.hpp
     hit.hpp
+    image.hpp
     interval.hpp
     lambert.hpp
     main.cpp
