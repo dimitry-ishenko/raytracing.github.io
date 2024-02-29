@@ -23,10 +23,15 @@ struct checker : texture
 
     virtual color3 value(const point2& uv, const point3& p) const override
     {
+#if 1
         int ix = std::floor(p.x() / scale);
         int iy = std::floor(p.y() / scale);
         int iz = std::floor(p.z() / scale);
-
+#else
+        int ix = std::floor(uv.x() / scale);
+        int iy = std::floor(uv.y() / scale);
+        int iz = 0;
+#endif
         auto s = (ix + iy + iz) % 2;
         return s ? even->value(uv, p) : odd->value(uv, p);
     }
