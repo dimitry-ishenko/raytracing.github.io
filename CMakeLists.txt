@@ -31,5 +31,4 @@ add_executable(${EX}
     texture.hpp
     vec.hpp
 )
-target_compile_options(${EX} PUBLIC -O3)
 target_link_libraries(${EX} PUBLIC tbb)
