@@ -11,12 +11,14 @@
 #include "sphere.hpp"
 #include "texture.hpp"
 
-int main(int argc, char* argv[])
+int main()
 {
     object_list world;
+    view view;
 
+#if 1
     auto tex = std::make_shared<checker>(.32, color3{.2, .3, .1}, color3{.9, .9, .9});
-    world.emplace_back(new sphere3{ point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) });
+    world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
 
     for (int a = -11; a < 11; ++a)
         for (int b = -11; b < 11; ++b)
@@ -30,32 +32,32 @@ int main(int argc, char* argv[])
                 {
                     auto albedo = rnd_color3() * rnd_color3();
                     auto center1 = center + vec3{0, .5 * rnd(), 0};
-                    world.emplace_back(new sphere3{center, center1, .2, std::make_shared<lambert>(albedo) });
+                    world.push_back(std::make_shared<sphere3>( center, center1, .2, std::make_shared<lambert>(albedo) ));
                 }
                 else if (choice < .95) // metal
                 {
                     auto albedo = (rnd_color3() + 1) / 2;
                     auto fuzz = rnd() / 2;
-                    world.emplace_back(new sphere3{ center, .2, std::make_shared<metal>(albedo, fuzz) });
+                    world.push_back(std::make_shared<sphere3>( center, .2, std::make_shared<metal>(albedo, fuzz) ));
                 }
                 else // glass
                 {
-                    world.emplace_back(new sphere3{center, .2, std::make_shared<dielec>(1.5) });
+                    world.push_back(std::make_shared<sphere3>( center, .2, std::make_shared<dielec>(1.5) ));
                 }
             }
         }
 
-    world.emplace_back(new sphere3{ point3{ 0, 1, 0}, 1, std::make_shared<dielec >(1.5) });
-    world.emplace_back(new sphere3{ point3{-4, 1, 0}, 1, std::make_shared<lambert>(color3{.4, .2, .1}) });
-    world.emplace_back(new sphere3{ point3{ 4, 1, 0}, 1, std::make_shared<metal  >(color3{.7, .6, .5}, 0) });
+    world.push_back(std::make_shared<sphere3>( point3{ 0, 1, 0}, 1, std::make_shared<dielec >(1.5) ));
+    world.push_back(std::make_shared<sphere3>( point3{-4, 1, 0}, 1, std::make_shared<lambert>(color3{.4, .2, .1}) ));
+    world.push_back(std::make_shared<sphere3>( point3{ 4, 1, 0}, 1, std::make_shared<metal  >(color3{.7, .6, .5}, 0) ));
 
-    view view;
     view.from  = point3{13, 2, 3};
     view.at    = point3{ 0, 0, 0};
     view.up    = vec3  { 0, 1, 0};
     view.field = 20;
     view.focus_angle = .6;
     view.focus_dist = 10;
+#endif
 
     camera{ }.render(bvh_node{std::move(world)}, view);
 
