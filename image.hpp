@@ -6,11 +6,9 @@
 #include <algorithm> // std::clamp
 #include <filesystem>
 #include <fstream>
-#include <sstream>
 #include <stdexcept>
 #include <vector>
 
-#include <iostream>
 namespace fs = std::filesystem;
 
 struct image
@@ -42,17 +40,16 @@ struct image
         is.exceptions(is.failbit);
         is.open(path);
 
-        auto ss = read_line(is);
-        if (ss.str() != magic) throw std::invalid_argument{"Invalid magic"};
+        std::string magic_;
+        is >> magic_;
+        if (magic_ != magic) throw std::invalid_argument{"Invalid magic"};
 
         int width = -1, height = -1;
-        ss = read_line(is);
-        ss >> width >> height >> std::ws;
+        is >> width >> height;
         if (width < 0 || height < 0) throw std::invalid_argument{"Invalid size"};
 
         int max_ = -1;
-        ss = read_line(is);
-        ss >> max_ >> std::ws;
+        is >> max_;
         if (max_ != max) throw std::invalid_argument{"Invalid depth"};
 
         image image{width, height};
@@ -60,8 +57,7 @@ struct image
         for (auto& c : image.pixel)
         {
             int r = -1, g = -1, b = -1;
-            ss = read_line(is);
-            ss >> r >> g >> b >> std::ws;
+            is >> r >> g >> b;
             if (r < 0 || r > max || g < 0 || g > max || b < 0 || b > max) throw std::invalid_argument{"Invalid pixel"};
 
             c = to_color(r, g, b);
@@ -75,16 +71,6 @@ struct image
     static constexpr auto max = 255;
 
 private:
-    static std::istringstream read_line(std::ifstream& is)
-    {
-        std::string s;
-
-        do std::getline(is, s);
-        while (s.size() < 1 || s[0] == '#');
-
-        return std::istringstream{std::move(s)};
-    }
-
     constexpr static int to_int(double v) { return std::clamp(v, 0., 1.) * max + .5; }
     constexpr static color3 to_color(double r, double g, double b) { return color3{r, g, b} / max; }
 };
