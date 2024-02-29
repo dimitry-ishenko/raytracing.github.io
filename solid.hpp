@@ -11,7 +11,7 @@ struct solid : texture
 
     explicit solid(color3 color) : color{std::move(color)} { }
 
-    virtual color3 value(const point2&, const point3&) const { return color; }
+    virtual color3 value(const point2&, const point3&) const override { return color; }
 };
 
 #endif
