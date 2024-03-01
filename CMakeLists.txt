@@ -24,6 +24,7 @@ add_executable(${EX}
     material.hpp
     metal.hpp
     object.hpp
+    pixmap.hpp
     point.hpp
     random.hpp
     ray.hpp
