@@ -11,8 +11,6 @@
 
 struct lambert : material
 {
-    shared_texture albedo;
-
     explicit lambert(color3 albedo) : albedo{std::make_shared<solid>(std::move(albedo))} { }
     explicit lambert(shared_texture albedo) : albedo{std::move(albedo)} { }
 
@@ -23,6 +21,9 @@ struct lambert : material
 
         return scatter{ ray3{hit.point, dir, ray.time}, albedo->value(hit.uv, hit.point) };
     }
+
+private:
+    shared_texture albedo;
 };
 
 #endif
