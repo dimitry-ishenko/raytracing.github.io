@@ -13,8 +13,6 @@ namespace fs = std::filesystem;
 
 struct pixmap : texture
 {
-    struct image image;
-
     explicit pixmap(const fs::path& path) : image{image::read_from(path)} { }
 
     virtual color3 value(const point2& uv, const point3&) const override
@@ -23,6 +21,9 @@ struct pixmap : texture
         int y = image.height * (1 - uv.y());
         return image.pixel[y * image.width + x];
     }
+
+private:
+    struct image image;
 };
 
 #endif
