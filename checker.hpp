@@ -10,9 +10,6 @@
 
 struct checker : texture
 {
-    double scale;
-    shared_texture even, odd;
-
     checker(double scale, color3 even, color3 odd) :
         scale{scale}, even{std::make_shared<solid>(std::move(even))}, odd{std::make_shared<solid>(std::move(odd))}
     { }
@@ -35,6 +32,10 @@ struct checker : texture
         auto s = (ix + iy + iz) % 2;
         return s ? even->value(uv, p) : odd->value(uv, p);
     }
+
+private:
+    double scale;
+    shared_texture even, odd;
 };
 
 #endif
