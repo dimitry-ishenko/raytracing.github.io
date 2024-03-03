@@ -12,8 +12,6 @@
 
 struct dielec : material
 {
-    double refrac;
-
     explicit dielec(double refrac) : refrac{refrac} { }
 
     virtual optional_scatter get_scatter(const ray3& ray, const hit& hit) const override
@@ -44,6 +42,9 @@ struct dielec : material
 
         return scatter{ ray3{hit.point, ref, ray.time}, color3{1, 1, 1} };
     }
+
+private:
+    double refrac;
 };
 
 #endif
