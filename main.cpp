@@ -6,6 +6,7 @@
 #include "image.hpp"
 #include "lambert.hpp"
 #include "metal.hpp"
+#include "noise.hpp"
 #include "object.hpp"
 #include "pixmap.hpp"
 #include "point.hpp"
@@ -83,13 +84,26 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 1
+#if 0
     auto tex = std::make_shared<pixmap>("./image/earthmap.ppm");
     world.push_back(std::make_shared<sphere3>( point3{0, 0, 0}, 2, std::make_shared<lambert>(tex) ));
 
     view.from  = point3{0, 8, -9};
     view.at    = point3{0, 0,  0};
     view.up    = vec3  {0, 1,  0};
+    view.field = 20;
+    view.focus_angle = 0;
+    view.focus_dist = 10;
+#endif
+
+#if 1
+    auto tex = std::make_shared<noise>();
+    world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
+    world.push_back(std::make_shared<sphere3>( point3{0,     2, 0},    2, std::make_shared<lambert>(tex) ));
+
+    view.from  = point3{13, 2, 3};
+    view.at    = point3{ 0, 0, 0};
+    view.up    = vec3  { 0, 1, 0};
     view.field = 20;
     view.focus_angle = 0;
     view.focus_dist = 10;
