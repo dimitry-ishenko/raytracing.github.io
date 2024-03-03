@@ -12,6 +12,7 @@ struct noise : texture
         return color3{1, 1, 1} * gen.noise(p);
     }
 
+private:
     perlin gen;
 };
 
