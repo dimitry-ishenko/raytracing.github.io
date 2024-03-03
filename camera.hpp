@@ -31,12 +31,6 @@ struct view
 
 struct camera
 {
-    int samples_per_pixel = 500;
-    int max_depth = 50;
-
-    int width = 1200;
-    int height = width * 9 / 16;
-
     image render(const object& world, const view& view) const
     {
         auto h = std::tan(deg2rad(view.field) / 2);
@@ -94,6 +88,12 @@ struct camera
     }
 
 private:
+    int samples_per_pixel = 500;
+    int max_depth = 50;
+
+    int width = 1200;
+    int height = width * 9 / 16;
+
     static color3 ray_color(const ray3& ray, int depth, const object& world)
     {
         if (!depth) return { };
