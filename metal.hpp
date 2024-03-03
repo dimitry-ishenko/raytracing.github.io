@@ -9,9 +9,6 @@
 
 struct metal : material
 {
-    color3 albedo;
-    double fuzz;
-
     metal(color3 albedo, double fuzz) : albedo{std::move(albedo)}, fuzz{fuzz} { }
 
     virtual optional_scatter get_scatter(const ray3& ray, const hit& hit) const override
@@ -28,6 +25,10 @@ struct metal : material
 
         return scatter{ ray3{hit.point, ref, ray.time}, albedo };
     }
+
+private:
+    color3 albedo;
+    double fuzz;
 };
 
 #endif
