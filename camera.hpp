@@ -12,49 +12,61 @@
 #include <cmath> // std::lerp
 #include <execution>
 #include <iostream>
+#include <numbers>
 #include <numeric> // std::transform_reduce
 #include <ranges>
 
+using std::numbers::pi;
+
 struct camera
 {
-    point3 center{0, 0, 0};
-    double focal_len = 1;
-
     int samples_per_pixel = 100;
     int max_depth = 50;
 
-    int image_width = 1200;
-    int image_height = image_width * 9 / 16;
+    int img_width = 1200;
+    int img_height = img_width * 9 / 16;
+
+    double fov = 90;
+    point3 look_from{0, 0,  0};
+    point3 look_at  {0, 0, -1};
+    vec3   look_up  {0, 1,  0};
 
     void render(const object_list& world) const
     {
-        double viewport_height = 2;
-        double viewport_width = viewport_height * image_width / image_height;
+        auto h = std::tan(deg2rad(fov) / 2);
+        auto focal = len(look_at - look_from);
 
-        auto viewport0 = center + vec3{ -viewport_width / 2, viewport_height / 2, -focal_len };
+        auto vp_height = 2 * h * focal;
+        auto vp_width = vp_height * img_width / img_height;
 
-        auto dx = vec3{ viewport_width / image_width, 0, 0 };
-        auto dy = vec3{ 0, -viewport_height / image_height, 0 };
+        auto w = unit{look_from - look_at};
+        auto u = unit{cross(look_up, w)};
+        auto v = unit{cross(w, u)};
+
+        auto viewport0 = look_from + (-focal * w) + (-vp_width / 2 * u) + (vp_height / 2 * v);
+
+        auto dx = vp_width / img_width * u;
+        auto dy = -vp_height / img_height * v;
         auto pixel0 = viewport0 + .5 * (dx + dy);
 
         rnd_gen rnd{-.5, .5};
 
-        std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+        std::cout << "P3\n" << img_width << ' ' << img_height << "\n255\n";
 
-        for (int j = 0; j < image_height; ++j)
+        for (int j = 0; j < img_height; ++j)
         {
-            std::cerr << "\rRemaining: " << (image_height - j) << ' ' << std::flush;
-            for (int i = 0; i < image_width; ++i)
+            std::cerr << "\rRemaining: " << (img_height - j) << ' ' << std::flush;
+            for (int i = 0; i < img_width; ++i)
             {
                 auto pixel = pixel0 + (i * dx) + (j * dy);
-                auto dir = pixel - center;
+                auto dir = pixel - look_from;
 
                 auto s = std::views::iota(0, samples_per_pixel);
                 auto c = std::transform_reduce(std::execution::par_unseq,
                     s.begin(), s.end(), color3{ }, std::plus<>(), [&](auto)
                     {
                         auto fuzz = dx * rnd() + dy * rnd();
-                        return ray_color(ray3{center, dir + fuzz}, max_depth, world);
+                        return ray_color(ray3{look_from, dir + fuzz}, max_depth, world);
                     }
                 );
                 c = sqrt(c / s.size()); // gamma correction
@@ -85,6 +97,8 @@ private:
     }
 
     constexpr static int to_8bit(double v) { return std::lerp(0., 255., std::clamp(v, 0., 1.)) + .5; }
+
+    constexpr static double deg2rad(double deg) { return deg * pi / 180; }
 };
 
 #endif
