@@ -4,8 +4,7 @@
 #include "point.hpp"
 #include "random.hpp"
 
-#include <array>
-#include <cstdint>
+#include <iterator>
 #include <numeric>
 
 struct perlin
@@ -14,21 +13,33 @@ struct perlin
     {
         for (auto& p : perm)
         {
-            std::iota(p.begin(), p.end(), 0);
-            for (auto i = p.size() - 1; i > 0; --i) std::swap(p[i], p[rnd() * i]);
+            std::iota(std::begin(p), std::end(p), 0);
+            for (auto i = std::size(p) - 1; i > 0; --i) std::swap(p[i], p[ std::size_t(rnd() * i) ]);
         }
         for (auto& n : rand) n = rnd();
     }
 
     auto noise(const point3& p) const
     {
-        std::uint8_t x = 4 * p.x(), y = 4 * p.y(), z = 4 * p.z();
-        return rand[ perm[0][x] ^ perm[1][y] ^ perm[2][z] ];
+        int x = std::floor(p.x());
+        int y = std::floor(p.y());
+        int z = std::floor(p.z());
+
+        auto u = p.x() - x, v = p.y() - y, w = p.z() - z;
+
+        double acc = 0;
+        for (auto i = 0; i < 2; ++i)
+            for (auto j = 0; j < 2; ++j)
+                for (auto k = 0; k < 2; ++k)
+                    acc += (i*u + (1-i) * (1-u)) * (j*v + (1-j) * (1-v)) * (k*w + (1-k) * (1-w)) *
+                        rand[ perm[0][(x+i) & 255] ^ perm[1][(y+j) & 255] ^ perm[2][(z+k) & 255] ];
+
+        return acc;
     }
 
 private:
-    std::array<int, 256> perm[3];
-    std::array<double, 256> rand;
+    int perm[3][256];
+    double rand[256];
 };
 
 #endif
