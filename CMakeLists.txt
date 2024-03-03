@@ -23,6 +23,7 @@ add_executable(${EX}
     main.cpp
     material.hpp
     metal.hpp
+    noise.hpp
     object.hpp
     perlin.hpp
     pixmap.hpp
