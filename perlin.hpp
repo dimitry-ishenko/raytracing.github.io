@@ -26,6 +26,9 @@ struct perlin
         int z = std::floor(p.z());
 
         auto u = p.x() - x, v = p.y() - y, w = p.z() - z;
+        u = u * u * (3 - 2 * u);
+        v = v * v * (3 - 2 * v);
+        w = w * w * (3 - 2 * w);
 
         double acc = 0;
         for (auto i = 0; i < 2; ++i)
