@@ -3,8 +3,6 @@
 #include "point.hpp"
 #include "sphere.hpp"
 
-#include <iostream>
-
 int main(int argc, char* argv[])
 {
     object_list world;
