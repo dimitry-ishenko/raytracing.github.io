@@ -17,11 +17,6 @@ using std::numbers::pi;
 
 struct sphere3 : object
 {
-    point3 center;
-    double radius;
-    shared_material mat;
-    vec3 vel;
-
     sphere3(const point3& center, double radius, shared_material mat) :
         sphere3{ center, center, radius, std::move(mat) }
     { }
@@ -66,6 +61,12 @@ struct sphere3 : object
 
         return hit{ point, front ? norm : -norm, t, front, mat, point2{u, v} };
     }
+
+private:
+    point3 center;
+    double radius;
+    shared_material mat;
+    vec3 vel;
 };
 
 #endif
