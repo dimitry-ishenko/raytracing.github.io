@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
 #endif
 
 #if 1
-    auto tex = std::make_shared<noise>();
+    auto tex = std::make_shared<noise>(4);
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
     world.push_back(std::make_shared<sphere3>( point3{0,     2, 0},    2, std::make_shared<lambert>(tex) ));
 

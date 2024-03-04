@@ -7,13 +7,16 @@
 
 struct noise : texture
 {
+    explicit noise(double scale = 1) : scale{scale} { }
+
     virtual color3 value(const point2&, const point3& p) const override
     {
-        return color3{1, 1, 1} * gen.noise(p);
+        return color3{1, 1, 1} * gen.noise(scale * p);
     }
 
 private:
     perlin gen;
+    double scale;
 };
 
 #endif
