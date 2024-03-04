@@ -22,6 +22,12 @@ inline auto rnd()
     return rnd();
 }
 
+inline auto rnd_vec3()
+{
+    static rnd_gen rnd{-1, 1};
+    return vec3{rnd(), rnd(), rnd()};
+}
+
 inline auto rnd_color3() { return color3{rnd(), rnd(), rnd()}; }
 
 inline auto rnd_disk3()
@@ -35,10 +41,8 @@ inline auto rnd_disk3()
 
 inline auto rnd_sphere3()
 {
-    static rnd_gen rnd{-1, 1};
-
-    vec3 v{rnd(), rnd(), rnd()};
-    for (; len_2(v) > 1; v = vec3{rnd(), rnd(), rnd()});
+    auto v = rnd_vec3();
+    for (; len_2(v) > 1; v = rnd_vec3());
     return v;
 }
 
