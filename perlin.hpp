@@ -5,6 +5,7 @@
 #include "random.hpp"
 #include "vec.hpp"
 
+#include <cmath>
 #include <iterator>
 #include <numeric>
 
@@ -42,6 +43,13 @@ struct perlin
                 }
 
         return acc;
+    }
+
+    auto turb(point3 p, int depth) const
+    {
+        double acc = 0;
+        for (auto weight = 1.; depth; --depth, weight /= 2, p *= 2) acc += weight * noise(p);
+        return std::abs(acc);
     }
 
 private:
