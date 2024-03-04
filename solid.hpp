@@ -7,11 +7,12 @@
 
 struct solid : texture
 {
-    color3 color;
-
     explicit solid(color3 color) : color{std::move(color)} { }
 
     virtual color3 value(const point2&, const point3&) const override { return color; }
+
+private:
+    color3 color;
 };
 
 #endif
