@@ -10,6 +10,16 @@
 
 struct aabb : array<interval, 3>
 {
+    aabb() = default;
+    
+    aabb(interval x, interval y, interval z) :
+        array{ padded(x), padded(y), padded(z) }
+    { }
+
+    aabb(const point3& a, const point3& b) :
+        array{ padded_interval(a.x(), b.x()), padded_interval(a.y(), b.y()), padded_interval(a.z(), b.z()) }
+    { }
+
     auto longest_axis() const
     {
         return len(data()[0]) > len(data()[1])
@@ -34,19 +44,11 @@ struct aabb : array<interval, 3>
         return true;
     }
 
-    static aabb from(const point3& a, const point3& b)
+private:
+    interval padded_interval(double m, double n)
     {
-        auto padded = [](double m, double n)
-        {
-            auto [min, max] = std::minmax(m, n);
-            return padded_if_less(interval{min, max}, .0001);
-        };
-
-        return aabb{
-            padded(a.x(), b.x()),
-            padded(a.y(), b.y()),
-            padded(a.z(), b.z()),
-        };
+        auto [min, max] = std::minmax(m, n);
+        return padded(interval{min, max});
     }
 };
 
