@@ -18,6 +18,13 @@ constexpr auto merge(const interval& ix, const interval& iy)
     return interval{ std::min(ix.min, iy.min), std::max(ix.max, iy.max) };
 }
 
+constexpr auto padded(interval in)
+{
+    constexpr auto p = .0001;
+    if (len(in) < p) in.min -= p / 2, in.max += p / 2;
+    return in;
+}
+
 constexpr auto padded_if_less(interval in, double p)
 {
     if (len(in) < p) { in.min -= p / 2; in.max += p / 2; }
