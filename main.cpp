@@ -10,6 +10,7 @@
 #include "object.hpp"
 #include "pixmap.hpp"
 #include "point.hpp"
+#include "quad.hpp"
 #include "random.hpp"
 #include "sphere.hpp"
 #include "texture.hpp"
@@ -96,7 +97,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 1
+#if 0
     auto tex = std::make_shared<noise>(4);
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
     world.push_back(std::make_shared<sphere3>( point3{0,     2, 0},    2, std::make_shared<lambert>(tex) ));
@@ -105,6 +106,27 @@ int main(int argc, char* argv[])
     view.at    = point3{ 0, 0, 0};
     view.up    = vec3  { 0, 1, 0};
     view.field = 20;
+    view.focus_angle = 0;
+    view.focus_dist = 10;
+#endif
+
+#if 1
+    auto red    = std::make_shared<lambert>(color3{ 1, .2, .2});
+    auto green  = std::make_shared<lambert>(color3{.2,  1, .2});
+    auto blue   = std::make_shared<lambert>(color3{.2, .2,  1});
+    auto orange = std::make_shared<lambert>(color3{ 1, .5,  0});
+    auto teal   = std::make_shared<lambert>(color3{.2, .8, .8});
+
+    world.push_back(std::make_shared<quad>( point3{-3, -2, 5}, vec3{0, 0,-4}, vec3{0, 4, 0}, red    ));
+    world.push_back(std::make_shared<quad>( point3{-2, -2, 0}, vec3{4, 0, 0}, vec3{0, 4, 0}, green  ));
+    world.push_back(std::make_shared<quad>( point3{ 3, -2, 1}, vec3{0, 0, 4}, vec3{0, 4, 0}, blue   ));
+    world.push_back(std::make_shared<quad>( point3{-2,  3, 1}, vec3{4, 0, 0}, vec3{0, 0, 4}, orange ));
+    world.push_back(std::make_shared<quad>( point3{-2, -3, 5}, vec3{4, 0, 0}, vec3{0, 0,-4}, teal   ));
+
+    view.from  = point3{0, 0, 9};
+    view.at    = point3{0, 0, 0};
+    view.up    = vec3  {0, 1, 0};
+    view.field = 80;
     view.focus_angle = 0;
     view.focus_dist = 10;
 #endif
