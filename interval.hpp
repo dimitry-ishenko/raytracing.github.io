@@ -25,12 +25,6 @@ constexpr auto padded(interval in)
     return in;
 }
 
-constexpr auto padded_if_less(interval in, double p)
-{
-    if (len(in) < p) { in.min -= p / 2; in.max += p / 2; }
-    return in;
-}
-
 constexpr auto surr(const interval& in, double t) { return in.min < t && t < in.max; }
 
 #endif
