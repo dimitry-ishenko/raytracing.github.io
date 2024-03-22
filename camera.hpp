@@ -94,22 +94,19 @@ private:
     int width = 1200;
     int height = width * 9 / 16;
 
-    static color3 ray_color(const ray3& ray, int depth, const object& world)
+    color3 background{.7, .8, 1};
+
+    color3 ray_color(const ray3& ray, int depth, const object& world) const
     {
-        if (!depth) return { };
+        if (!depth) return color3{ };
 
-        if (auto hit = world.get_hit(ray, {.001, inf}))
-        {
-            if (auto scatter = hit->mat->get_scatter(ray, *hit))
-                return scatter->atten * ray_color(scatter->ray, --depth, world);
+        auto hit = world.get_hit(ray, {.001, inf});
+        if (!hit) return background;
 
-            return { };
-        }
+        auto scatter = hit->mat->get_scatter(ray, *hit);
+        if (!scatter) return color3{ };
 
-        static constexpr color3 white{1, 1, 1}, blue{.5, .7, 1};
-
-        auto t = unit(ray.dir).y() / 2 + .5;
-        return lerp(white, blue, t);
+        return scatter->atten * ray_color(scatter->ray, --depth, world);
     }
 
     constexpr static double deg2rad(double deg) { return deg * pi / 180; }
