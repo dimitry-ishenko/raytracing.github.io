@@ -28,6 +28,7 @@ add_executable(${EX}
     perlin.hpp
     pixmap.hpp
     point.hpp
+    quad.hpp
     random.hpp
     ray.hpp
     solid.hpp
