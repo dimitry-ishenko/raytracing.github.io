@@ -14,7 +14,7 @@ struct lambert : material
     explicit lambert(color3 albedo) : albedo{std::make_shared<solid>(std::move(albedo))} { }
     explicit lambert(shared_texture albedo) : albedo{std::move(albedo)} { }
 
-    virtual optional_scatter get_scatter(const ray3& ray, const hit& hit) const override
+    virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
     {
         auto dir = hit.norm + unit(rnd_sphere3());
         if (near_0(dir)) dir = hit.norm;
