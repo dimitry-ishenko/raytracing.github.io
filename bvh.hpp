@@ -54,7 +54,7 @@ private:
         }
     }
 
-    shared_object child_0, child_1;
+    std::shared_ptr<object> child_0, child_1;
 };
 
 #endif

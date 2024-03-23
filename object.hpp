@@ -16,7 +16,6 @@ struct object
     virtual std::optional<hit> get_hit(const ray3&, interval) const = 0;
 };
 
-using shared_object = std::shared_ptr<object>;
-using object_list = std::vector<shared_object>;
+using object_list = std::vector< std::shared_ptr<object> >;
 
 #endif
