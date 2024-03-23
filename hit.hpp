@@ -5,7 +5,7 @@
 #include "point.hpp"
 #include "vec.hpp"
 
-#include <optional>
+#include <memory>
 
 struct hit
 {
@@ -14,7 +14,7 @@ struct hit
     double t;
 
     bool front;
-    shared_material mat;
+    std::shared_ptr<material> mat;
     point2 uv;
 };
 

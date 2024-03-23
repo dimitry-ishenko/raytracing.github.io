@@ -11,17 +11,18 @@
 #include "vec.hpp"
 
 #include <cmath>
+#include <memory>
 #include <numbers>
 
 using std::numbers::pi;
 
 struct sphere3 : object
 {
-    sphere3(const point3& center, double radius, shared_material mat) :
+    sphere3(const point3& center, double radius, std::shared_ptr<material> mat) :
         sphere3{ center, center, radius, std::move(mat) }
     { }
 
-    sphere3(const point3& center0, const point3& center1, double radius, shared_material mat) :
+    sphere3(const point3& center0, const point3& center1, double radius, std::shared_ptr<material> mat) :
         center{center0}, radius{radius}, mat{std::move(mat)}, vel{center1 - center0}
     {
         auto rvec = vec3{radius, radius, radius};
@@ -65,7 +66,7 @@ struct sphere3 : object
 private:
     point3 center;
     double radius;
-    shared_material mat;
+    std::shared_ptr<material> mat;
     vec3 vel;
 };
 

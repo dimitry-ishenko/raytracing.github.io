@@ -4,7 +4,6 @@
 #include "color.hpp"
 #include "ray.hpp"
 
-#include <memory>
 #include <optional>
 
 struct hit;
@@ -19,7 +18,5 @@ struct material
 {
     virtual std::optional<scatter> get_scatter(const ray3& ray, const hit&) const = 0;
 };
-
-using shared_material = std::shared_ptr<material>;
 
 #endif

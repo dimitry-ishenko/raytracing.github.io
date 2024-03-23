@@ -8,10 +8,11 @@
 #include "vec.hpp"
 
 #include <cmath>
+#include <memory>
 
 struct quad : object
 {
-    quad(const point3& q, const vec3& u, const vec3& v, shared_material mat) :
+    quad(const point3& q, const vec3& u, const vec3& v, std::shared_ptr<material> mat) :
         q{q}, u{u}, v{v}, mat{std::move(mat)}
     {
         auto n = cross(u, v);
@@ -47,7 +48,7 @@ struct quad : object
 private:
     point3 q;
     vec3 u, v;
-    shared_material mat;
+    std::shared_ptr<material> mat;
 
     vec3 norm; // unit vec
     double d;
