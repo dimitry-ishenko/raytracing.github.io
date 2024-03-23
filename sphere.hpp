@@ -30,7 +30,7 @@ struct sphere3 : object
         bbox = merge(box0, box1);
     }
 
-    virtual optional_hit get_hit(const ray3& ray, interval ti) const override
+    virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
     {
         auto center_t = center + vel * ray.time;
         auto rel = ray.origin - center_t;

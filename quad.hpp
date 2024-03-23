@@ -24,7 +24,7 @@ struct quad : object
         bbox = merge(box0, box1);
     }
 
-    virtual optional_hit get_hit(const ray3& ray, interval ti) const override
+    virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
     {
         auto den = dot(norm, ray.dir);
         if (std::abs(den) < 1e-8) return { };

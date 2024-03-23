@@ -15,7 +15,7 @@ struct bvh_node : object
         bvh_node{world.begin(), world.end()}
     { }
 
-    virtual optional_hit get_hit(const ray3& ray, interval ti) const
+    virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const
     {
         if (!bbox.is_hit(ray, ti)) return { };
 

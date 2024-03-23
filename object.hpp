@@ -13,7 +13,7 @@ struct object
 {
     aabb bbox;
 
-    virtual optional_hit get_hit(const ray3&, interval) const = 0;
+    virtual std::optional<hit> get_hit(const ray3&, interval) const = 0;
 };
 
 using shared_object = std::shared_ptr<object>;

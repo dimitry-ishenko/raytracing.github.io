@@ -18,6 +18,4 @@ struct hit
     point2 uv;
 };
 
-using optional_hit = std::optional<hit>;
-
 #endif
