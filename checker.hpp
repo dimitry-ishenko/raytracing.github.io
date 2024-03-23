@@ -7,6 +7,7 @@
 #include "texture.hpp"
 
 #include <cmath> // std::floor
+#include <memory>
 
 struct checker : texture
 {
@@ -14,7 +15,7 @@ struct checker : texture
         scale{scale}, even{std::make_shared<solid>(std::move(even))}, odd{std::make_shared<solid>(std::move(odd))}
     { }
 
-    checker(double scale, shared_texture even, shared_texture odd) :
+    checker(double scale, std::shared_ptr<texture> even, std::shared_ptr<texture> odd) :
         scale{scale}, even{std::move(even)}, odd{std::move(odd)}
     { }
 
@@ -35,7 +36,7 @@ struct checker : texture
 
 private:
     double scale;
-    shared_texture even, odd;
+    std::shared_ptr<texture> even, odd;
 };
 
 #endif

@@ -9,10 +9,12 @@
 #include "solid.hpp"
 #include "texture.hpp"
 
+#include <memory>
+
 struct lambert : material
 {
     explicit lambert(color3 albedo) : albedo{std::make_shared<solid>(std::move(albedo))} { }
-    explicit lambert(shared_texture albedo) : albedo{std::move(albedo)} { }
+    explicit lambert(std::shared_ptr<texture> albedo) : albedo{std::move(albedo)} { }
 
     virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
     {
@@ -23,7 +25,7 @@ struct lambert : material
     }
 
 private:
-    shared_texture albedo;
+    std::shared_ptr<texture> albedo;
 };
 
 #endif
