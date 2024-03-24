@@ -3,6 +3,7 @@
 #include "checker.hpp"
 #include "color.hpp"
 #include "dielec.hpp"
+#include "diffuse.hpp"
 #include "image.hpp"
 #include "lambert.hpp"
 #include "metal.hpp"
@@ -110,7 +111,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 1
+#if 0
     auto red    = std::make_shared<lambert>(color3{ 1, .2, .2});
     auto green  = std::make_shared<lambert>(color3{.2,  1, .2});
     auto blue   = std::make_shared<lambert>(color3{.2, .2,  1});
@@ -129,6 +130,23 @@ int main(int argc, char* argv[])
     view.field = 80;
     view.focus_angle = 0;
     view.focus_dist = 10;
+#endif
+
+#if 1
+    auto tex = std::make_shared<noise>(4);
+    world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
+    world.push_back(std::make_shared<sphere3>( point3{0, 2, 0}, 2, std::make_shared<lambert>(tex) ));
+
+    world.push_back(std::make_shared<quad>( point3{3, 1, -2}, vec3{2, 0, 0}, vec3{0, 2, 0}, std::make_shared<diffuse>(color3{4, 4, 4}) ));
+
+    view.from  = point3{26, 3, 6};
+    view.at    = point3{ 0, 2, 0};
+    view.up    = vec3  { 0, 1, 0};
+    view.field = 20;
+    view.focus_angle = 0;
+    view.focus_dist = 10;
+
+    view.back_gnd = color3{0, 0, 0};
 #endif
 
     auto image = camera{ }.render(bvh_node{std::move(world)}, view);
