@@ -27,6 +27,8 @@ struct view
 
     double focus_dist;
     double focus_angle;
+
+    color3 back_gnd{.7, .8, 1};
 };
 
 struct camera
@@ -72,7 +74,7 @@ struct camera
                             auto dir = pixel - origin + sub_pixel();
                             auto time = rnd();
 
-                            c += ray_color(ray3{origin, dir, time}, max_depth, world);
+                            c += ray_color(ray3{origin, dir, time}, max_depth, world, view.back_gnd);
                         }
                         return c;
                     },
@@ -94,14 +96,12 @@ private:
     int width = 1200;
     int height = width * 9 / 16;
 
-    color3 background{.7, .8, 1};
-
-    color3 ray_color(const ray3& ray, int depth, const object& world) const
+    color3 ray_color(const ray3& ray, int depth, const object& world, const color3& back_gnd) const
     {
         if (!depth) return color3{ };
 
         auto hit = world.get_hit(ray, {.001, inf});
-        if (!hit) return background;
+        if (!hit) return back_gnd;
 
         color3 color{ };
 
@@ -109,7 +109,7 @@ private:
             color += *emitted;
 
         if (auto scatter = hit->mat->get_scatter(ray, *hit))
-            color += scatter->atten * ray_color(scatter->ray, --depth, world);
+            color += scatter->atten * ray_color(scatter->ray, --depth, world, back_gnd);
 
         return color;
     }
