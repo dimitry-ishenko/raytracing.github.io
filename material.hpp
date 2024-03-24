@@ -16,7 +16,7 @@ struct scatter
 
 struct material
 {
-    virtual std::optional<scatter> get_scatter(const ray3&, const hit&) const = 0;
+    virtual std::optional<scatter> get_scatter(const ray3&, const hit&) const { return { }; }
     virtual std::optional<color3>  get_emitted(const point2&, const point3&) const { return { }; }
 };
 
