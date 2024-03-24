@@ -16,6 +16,7 @@ add_executable(${EX}
     checker.hpp
     color.hpp
     dielec.hpp
+    diffuse.hpp
     hit.hpp
     image.hpp
     interval.hpp
