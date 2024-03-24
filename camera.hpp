@@ -103,10 +103,15 @@ private:
         auto hit = world.get_hit(ray, {.001, inf});
         if (!hit) return background;
 
-        auto scatter = hit->mat->get_scatter(ray, *hit);
-        if (!scatter) return color3{ };
+        color3 color{ };
 
-        return scatter->atten * ray_color(scatter->ray, --depth, world);
+        if (auto emitted = hit->mat->get_emitted(hit->uv, hit->point))
+            color += *emitted;
+
+        if (auto scatter = hit->mat->get_scatter(ray, *hit))
+            color += scatter->atten * ray_color(scatter->ray, --depth, world);
+
+        return color;
     }
 
     constexpr static double deg2rad(double deg) { return deg * pi / 180; }
