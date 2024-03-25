@@ -9,6 +9,12 @@ constexpr const auto inf = std::numeric_limits<double>::infinity();
 struct interval
 {
     double min = +inf, max = -inf;
+
+    constexpr void merge(const interval& in)
+    {
+        if (in.min < min) min = in.min;
+        if (in.max > max) max = in.max;
+    }
 };
 
 constexpr auto len(const interval& in) { return in.max - in.min; }
