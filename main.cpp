@@ -137,7 +137,9 @@ int main(int argc, char* argv[])
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
     world.push_back(std::make_shared<sphere3>( point3{0, 2, 0}, 2, std::make_shared<lambert>(tex) ));
 
-    world.push_back(std::make_shared<quad>( point3{3, 1, -2}, vec3{2, 0, 0}, vec3{0, 2, 0}, std::make_shared<diffuse>(color3{4, 4, 4}) ));
+    auto light = std::make_shared<diffuse>(color3{4, 4, 4});
+    world.push_back(std::make_shared<sphere3>( point3{0, 7, -0}, 2, light ));
+    world.push_back(std::make_shared<quad>( point3{3, 1, -2}, vec3{2, 0, 0}, vec3{0, 2, 0}, light ));
 
     view.from  = point3{26, 3, 6};
     view.at    = point3{ 0, 2, 0};
