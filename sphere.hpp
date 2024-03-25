@@ -26,9 +26,8 @@ struct sphere3 : object
         center{center0}, radius{radius}, mat{std::move(mat)}, vel{center1 - center0}
     {
         auto rvec = vec3{radius, radius, radius};
-        auto box0 = aabb{center0 - rvec, center0 + rvec};
-        auto box1 = aabb{center1 - rvec, center1 + rvec};
-        bbox = merge(box0, box1);
+        bbox.merge(aabb{center0 - rvec, center0 + rvec});
+        bbox.merge(aabb{center1 - rvec, center1 + rvec});
     }
 
     virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
