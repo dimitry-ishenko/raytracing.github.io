@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
     object_list world;
     view view;
 
-#if 0
+#if 0 // motion
     auto tex = std::make_shared<checker>(.32, color3{.2, .3, .1}, color3{.9, .9, .9});
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
 
@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 0
+#if 0 // checker
     auto tex = std::make_shared<checker>(.032, color3{.2, .3, .1}, color3{.9, .9, .9});
 
     world.push_back(std::make_shared<sphere3>( point3{0, -10, 0}, 10, std::make_shared<lambert>(tex) ));
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 0
+#if 0 // earth
     auto tex = std::make_shared<pixmap>("./image/earthmap.ppm");
     world.push_back(std::make_shared<sphere3>( point3{0, 0, 0}, 2, std::make_shared<lambert>(tex) ));
 
@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 0
+#if 0 // perlin
     auto tex = std::make_shared<noise>(4);
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
     world.push_back(std::make_shared<sphere3>( point3{0,     2, 0},    2, std::make_shared<lambert>(tex) ));
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 0
+#if 0 // quad
     auto red    = std::make_shared<lambert>(color3{ 1, .2, .2});
     auto green  = std::make_shared<lambert>(color3{.2,  1, .2});
     auto blue   = std::make_shared<lambert>(color3{.2, .2,  1});
@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 1
+#if 1 // light
     auto tex = std::make_shared<noise>(4);
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
     world.push_back(std::make_shared<sphere3>( point3{0, 2, 0}, 2, std::make_shared<lambert>(tex) ));
