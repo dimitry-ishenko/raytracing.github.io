@@ -59,13 +59,4 @@ private:
     }
 };
 
-auto merge(const aabb& box0, const aabb& box1)
-{
-    return aabb{
-        merge(box0[0], box1[0]),
-        merge(box0[1], box1[1]),
-        merge(box0[2], box1[2]),
-    };
-}
-
 #endif
