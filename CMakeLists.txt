@@ -11,6 +11,7 @@ set(EX ${PROJECT_NAME}-${PROJECT_VERSION})
 add_executable(${EX}
     aabb.hpp
     array.hpp
+    box.hpp
     bvh.hpp
     camera.hpp
     checker.hpp
