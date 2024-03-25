@@ -20,9 +20,8 @@ struct quad : object
         d = dot(norm, q);
         w = n / dot(n, n);
 
-        auto box0 = aabb{q, q + u + v};
-        auto box1 = aabb{q + u, q + v};
-        bbox = merge(box0, box1);
+        bbox.merge(aabb{q, q + u + v});
+        bbox.merge(aabb{q + u, q + v});
     }
 
     virtual std::optional<hit> get_hit(const ray3& ray, interval ti) const override
