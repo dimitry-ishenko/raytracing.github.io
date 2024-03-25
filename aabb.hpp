@@ -20,6 +20,13 @@ struct aabb : array<interval, 3>
         array{ padded_interval(a.x(), b.x()), padded_interval(a.y(), b.y()), padded_interval(a.z(), b.z()) }
     { }
 
+    void merge(const aabb& box)
+    {
+        data()[0].merge(box[0]);
+        data()[1].merge(box[1]);
+        data()[2].merge(box[2]);
+    }
+
     auto longest_axis() const
     {
         return len(data()[0]) > len(data()[1])
