@@ -1,7 +1,6 @@
 #ifndef INTERVAL_HPP
 #define INTERVAL_HPP
 
-#include <algorithm>
 #include <limits>
 
 constexpr const auto inf = std::numeric_limits<double>::infinity();
@@ -18,11 +17,6 @@ struct interval
 };
 
 constexpr auto len(const interval& in) { return in.max - in.min; }
-
-constexpr auto merge(const interval& ix, const interval& iy)
-{
-    return interval{ std::min(ix.min, iy.min), std::max(ix.max, iy.max) };
-}
 
 constexpr auto padded(interval in)
 {
