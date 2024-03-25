@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 #endif
 
-#if 1 // light
+#if 0 // light
     auto tex = std::make_shared<noise>(4);
     world.push_back(std::make_shared<sphere3>( point3{0, -1000, 0}, 1000, std::make_shared<lambert>(tex) ));
     world.push_back(std::make_shared<sphere3>( point3{0, 2, 0}, 2, std::make_shared<lambert>(tex) ));
@@ -145,6 +145,29 @@ int main(int argc, char* argv[])
     view.at    = point3{ 0, 2, 0};
     view.up    = vec3  { 0, 1, 0};
     view.field = 20;
+    view.focus_angle = 0;
+    view.focus_dist = 10;
+
+    view.back_gnd = color3{0, 0, 0};
+#endif
+
+#if 1 // cornell box
+    auto green = std::make_shared<lambert>( color3{.12, .45, .15} );
+    auto red   = std::make_shared<lambert>( color3{.65, .05, .05} );
+    auto white = std::make_shared<lambert>( color3{.73, .73, .73} );
+    auto light = std::make_shared<diffuse>( color3{15., 15., 15.} );
+
+    world.push_back(std::make_shared<quad>( point3{555,   0,   0}, vec3{   0, 555, 0}, vec3{0,   0,  555}, green ));
+    world.push_back(std::make_shared<quad>( point3{  0,   0,   0}, vec3{   0, 555, 0}, vec3{0,   0,  555}, red   ));
+    world.push_back(std::make_shared<quad>( point3{343, 554, 332}, vec3{-130,   0, 0}, vec3{0,   0, -105}, light ));
+    world.push_back(std::make_shared<quad>( point3{  0,   0,   0}, vec3{ 555,   0, 0}, vec3{0,   0,  555}, white ));
+    world.push_back(std::make_shared<quad>( point3{555, 555, 555}, vec3{-555,   0, 0}, vec3{0,   0, -555}, white ));
+    world.push_back(std::make_shared<quad>( point3{  0,   0, 555}, vec3{ 555,   0, 0}, vec3{0, 555,    0}, white ));
+
+    view.from  = point3{278, 278, -800};
+    view.at    = point3{278, 278,    0};
+    view.up    = vec3{ 0, 1, 0};
+    view.field = 40;
     view.focus_angle = 0;
     view.focus_dist = 10;
 
