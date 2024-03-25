@@ -1,12 +1,14 @@
 #ifndef BOX_HPP
 #define BOX_HPP
 
+#include "bvh.hpp"
 #include "material.hpp"
 #include "object.hpp"
 #include "point.hpp"
 #include "quad.hpp"
 
 #include <cmath>
+#include <memory>
 
 inline auto box(const point3& a, const point3& b, std::shared_ptr<material> mat)
 {
@@ -27,7 +29,7 @@ inline auto box(const point3& a, const point3& b, std::shared_ptr<material> mat)
     box.push_back(std::make_shared<quad>( point3{x0, y1, z1},  dx, -dz, mat ));
     box.push_back(std::make_shared<quad>( point3{x0, y0, z0},  dx,  dz, mat ));
 
-    return box;
+    return std::make_shared<bvh_node>(std::move(box));
 }
 
 #endif

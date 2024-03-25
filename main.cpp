@@ -165,8 +165,8 @@ int main(int argc, char* argv[])
     world.push_back(std::make_shared<quad>( point3{555, 555, 555}, vec3{-555,   0, 0}, vec3{0,   0, -555}, white ));
     world.push_back(std::make_shared<quad>( point3{  0,   0, 555}, vec3{ 555,   0, 0}, vec3{0, 555,    0}, white ));
 
-    append(world, box(point3{130, 0,  65}, point3{295, 165, 230}, white));
-    append(world, box(point3{265, 0, 295}, point3{430, 330, 460}, white));
+    world.push_back(box(point3{130, 0,  65}, point3{295, 165, 230}, white));
+    world.push_back(box(point3{265, 0, 295}, point3{430, 330, 460}, white));
 
     view.from  = point3{278, 278, -800};
     view.at    = point3{278, 278,    0};
