@@ -18,9 +18,4 @@ struct object
 
 using object_list = std::vector< std::shared_ptr<object> >;
 
-inline void append(object_list& to, object_list from)
-{
-    for (auto& obj : from) to.push_back(std::move(obj));
-}
-
 #endif
