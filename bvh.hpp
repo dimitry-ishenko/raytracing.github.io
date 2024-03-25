@@ -29,7 +29,7 @@ struct bvh_node : object
 private:
     bvh_node(object_list::iterator begin, object_list::iterator end)
     {
-        std::for_each(begin, end, [&](auto&& e) { bbox = merge(bbox, e->bbox); });
+        std::for_each(begin, end, [&](auto&& e) { bbox.merge(e->bbox); });
 
         auto ax = bbox.longest_axis();
         auto less = [&](auto&& l, auto&& r){ return l->bbox[ax].min < r->bbox[ax].min; };
