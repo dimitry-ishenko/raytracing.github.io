@@ -16,6 +16,9 @@ struct interval
     }
 };
 
+constexpr auto operator+(const interval& in, double v) { return interval{in.min + v, in.max + v}; }
+constexpr auto operator+(double v, const interval& in) { return in + v; }
+
 constexpr auto len(const interval& in) { return in.max - in.min; }
 
 constexpr auto padded(interval in)
