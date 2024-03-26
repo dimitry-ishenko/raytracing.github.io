@@ -24,6 +24,7 @@ add_executable(${EX}
     lambert.hpp
     main.cpp
     material.hpp
+    math.hpp
     metal.hpp
     noise.hpp
     object.hpp

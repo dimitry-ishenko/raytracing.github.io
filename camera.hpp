@@ -4,6 +4,7 @@
 #include "color.hpp"
 #include "image.hpp"
 #include "material.hpp"
+#include "math.hpp"
 #include "object.hpp"
 #include "point.hpp"
 #include "ray.hpp"
@@ -12,11 +13,9 @@
 
 #include <cmath>
 #include <iostream>
-#include <numbers>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_reduce.h>
 
-using std::numbers::pi;
 using range = tbb::blocked_range<int>;
 
 struct view
@@ -113,8 +112,6 @@ private:
 
         return color;
     }
-
-    constexpr static double deg2rad(double deg) { return deg * pi / 180; }
 };
 
 #endif
