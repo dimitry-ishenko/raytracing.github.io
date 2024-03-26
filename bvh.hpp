@@ -31,8 +31,7 @@ private:
     {
         std::for_each(begin, end, [&](auto&& e) { bbox.merge(e->bbox); });
 
-        auto ax = bbox.longest_axis();
-        auto less = [&](auto&& l, auto&& r){ return l->bbox[ax].min < r->bbox[ax].min; };
+        auto less = [n = bbox.longest_axis()](auto&& l, auto&& r) { return l->bbox.ax(n).min < r->bbox.ax(n).min; };
 
         switch (auto size = end - begin)
         {
