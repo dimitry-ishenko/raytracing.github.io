@@ -34,6 +34,7 @@ add_executable(${EX}
     quad.hpp
     random.hpp
     ray.hpp
+    rotate.hpp
     solid.hpp
     sphere.hpp
     texture.hpp
