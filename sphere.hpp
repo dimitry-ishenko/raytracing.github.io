@@ -5,6 +5,7 @@
 #include "hit.hpp"
 #include "interval.hpp"
 #include "material.hpp"
+#include "math.hpp" // pi
 #include "object.hpp"
 #include "point.hpp"
 #include "ray.hpp"
@@ -12,9 +13,6 @@
 
 #include <cmath>
 #include <memory>
-#include <numbers>
-
-using std::numbers::pi;
 
 struct sphere3 : object
 {
