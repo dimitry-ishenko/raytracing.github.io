@@ -37,6 +37,7 @@ add_executable(${EX}
     solid.hpp
     sphere.hpp
     texture.hpp
+    translate.hpp
     vec.hpp
 )
 target_link_libraries(${EX} PUBLIC tbb)
