@@ -1,6 +1,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
 
+#include <algorithm> // std::min, std::max
 #include <array>
 #include <cmath>
 #include <concepts>
@@ -125,6 +126,14 @@ template<Array  A> constexpr auto len(const A& x) { return std::sqrt(len_2(x)); 
 template<Array  A> constexpr auto len_2(const A& x) { return dot(x, x); }
 
 template<Array  A> constexpr auto lerp(const A& x, const A& y, dtype<A> t) { return x + t * (y - x); }
+
+template<Array2 A> constexpr auto max(const A& x, const A& y) { return A{std::max(x[0], y[0]), std::max(x[1], y[1])}; }
+template<Array3 A> constexpr auto max(const A& x, const A& y) { return A{std::max(x[0], y[0]), std::max(x[1], y[1]), std::max(x[2], y[2])}; }
+template<Array4 A> constexpr auto max(const A& x, const A& y) { return A{std::max(x[0], y[0]), std::max(x[1], y[1]), std::max(x[2], y[2]), std::max(x[3], y[3])}; }
+
+template<Array2 A> constexpr auto min(const A& x, const A& y) { return A{std::min(x[0], y[0]), std::min(x[1], y[1])}; }
+template<Array3 A> constexpr auto min(const A& x, const A& y) { return A{std::min(x[0], y[0]), std::min(x[1], y[1]), std::min(x[2], y[2])}; }
+template<Array4 A> constexpr auto min(const A& x, const A& y) { return A{std::min(x[0], y[0]), std::min(x[1], y[1]), std::min(x[2], y[2]), std::min(x[3], y[3])}; }
 
 template<Array2 A> constexpr auto near_0(const A& x, dtype<A> e = 1e-8) { return std::abs(x[0]) < e && std::abs(x[1]) < e; }
 template<Array3 A> constexpr auto near_0(const A& x, dtype<A> e = 1e-8) { return std::abs(x[0]) < e && std::abs(x[1]) < e && std::abs(x[2]) < e; }
