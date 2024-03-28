@@ -51,4 +51,7 @@ struct aabb
     }
 };
 
+constexpr auto operator+(const aabb& box, const vec3& v) { return aabb{ box.x + v.x(), box.y + v.y(), box.z + v.z() }; }
+constexpr auto operator+(const vec3& v, const aabb& box) { return box + v; }
+
 #endif
