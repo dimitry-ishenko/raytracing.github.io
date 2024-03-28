@@ -10,7 +10,7 @@
 #include <cmath>
 #include <memory>
 
-inline auto box(const point3& a, const point3& b, std::shared_ptr<material> mat)
+inline std::shared_ptr<object> box(const point3& a, const point3& b, std::shared_ptr<material> mat)
 {
     auto [x0, x1] = std::minmax({ a.x(), b.x() });
     auto [y0, y1] = std::minmax({ a.y(), b.y() });
