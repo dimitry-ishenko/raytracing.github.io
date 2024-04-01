@@ -21,6 +21,7 @@ add_executable(${EX}
     hit.hpp
     image.hpp
     interval.hpp
+    isotropic.hpp
     lambert.hpp
     main.cpp
     material.hpp
