@@ -16,6 +16,7 @@ add_executable(${EX}
     camera.hpp
     checker.hpp
     color.hpp
+    constant.hpp
     dielec.hpp
     diffuse.hpp
     hit.hpp
