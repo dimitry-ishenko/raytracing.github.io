@@ -3,6 +3,7 @@
 #include "camera.hpp"
 #include "checker.hpp"
 #include "color.hpp"
+#include "constant.hpp"
 #include "dielec.hpp"
 #include "diffuse.hpp"
 #include "image.hpp"
@@ -154,7 +155,7 @@ int main(int argc, char* argv[])
     view.back_gnd = color3{0, 0, 0};
 #endif
 
-#if 1 // cornell box
+#if 0 // cornell box
     auto green = std::make_shared<lambert>( color3{.12, .45, .15} );
     auto red   = std::make_shared<lambert>( color3{.65, .05, .05} );
     auto white = std::make_shared<lambert>( color3{.73, .73, .73} );
@@ -175,6 +176,41 @@ int main(int argc, char* argv[])
     auto box2 = box(point3{0, 0, 0}, point3{165, 165, 165}, white);
     box2 = std::make_shared<rotate_y>(box2, -18);
     box2 = std::make_shared<translate>(box2, vec3{130, 0, 65});
+    world.push_back(box2);
+
+    view.from  = point3{278, 278, -800};
+    view.at    = point3{278, 278,    0};
+    view.up    = vec3{ 0, 1, 0};
+    view.field = 40;
+    view.focus_angle = 0;
+    view.focus_dist = 10;
+
+    view.back_gnd = color3{0, 0, 0};
+#endif
+
+#if 1 // cornell smoke
+    auto green = std::make_shared<lambert>( color3{.12, .45, .15} );
+    auto red   = std::make_shared<lambert>( color3{.65, .05, .05} );
+    auto white = std::make_shared<lambert>( color3{.73, .73, .73} );
+    auto light = std::make_shared<diffuse>( color3{  7,   7,   7} );
+
+    world.push_back(std::make_shared<quad>( point3{555,   0,   0}, vec3{  0, 555, 0}, vec3{0,   0, 555}, green ));
+    world.push_back(std::make_shared<quad>( point3{  0,   0,   0}, vec3{  0, 555, 0}, vec3{0,   0, 555}, red   ));
+    world.push_back(std::make_shared<quad>( point3{113, 554, 127}, vec3{330,   0, 0}, vec3{0,   0, 305}, light ));
+    world.push_back(std::make_shared<quad>( point3{  0, 555,   0}, vec3{555,   0, 0}, vec3{0,   0, 555}, white ));
+    world.push_back(std::make_shared<quad>( point3{  0,   0,   0}, vec3{555,   0, 0}, vec3{0,   0, 555}, white ));
+    world.push_back(std::make_shared<quad>( point3{  0,   0, 555}, vec3{555,   0, 0}, vec3{0, 555,   0}, white ));
+
+    auto box1 = box(point3{0, 0, 0}, point3{165, 330, 165}, white);
+    box1 = std::make_shared<rotate_y >(box1, 15);
+    box1 = std::make_shared<translate>(box1, vec3{265, 0, 295});
+    box1 = std::make_shared<constant >(box1, .01, color3{0, 0, 0});
+    world.push_back(box1);
+
+    auto box2 = box(point3{0, 0, 0}, point3{165, 165, 165}, white);
+    box2 = std::make_shared<rotate_y >(box2, -18);
+    box2 = std::make_shared<translate>(box2, vec3{130, 0, 65});
+    box2 = std::make_shared<constant >(box2, .01, color3{1, 1, 1});
     world.push_back(box2);
 
     view.from  = point3{278, 278, -800};
