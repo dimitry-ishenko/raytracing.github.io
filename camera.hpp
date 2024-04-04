@@ -28,6 +28,12 @@ struct view
     double focus_angle;
 
     color3 back_gnd{.7, .8, 1};
+
+    int samples_per_pixel = 500;
+    int max_depth = 50;
+
+    int width = 1200;
+    int height = width * 9 / 16;
 };
 
 struct camera
@@ -37,7 +43,7 @@ struct camera
         auto h = std::tan(deg2rad(view.field) / 2);
 
         auto vp_height = 2 * h * view.focus_dist;
-        auto vp_width = vp_height * width / height;
+        auto vp_width = vp_height * view.width / view.height;
 
         auto w = unit(view.from - view.at);
         auto u = unit(cross(view.up, w));
@@ -48,23 +54,23 @@ struct camera
         auto focus_radius = view.focus_dist * std::tan(deg2rad(view.focus_angle / 2));
         auto focus_disk = [&]{ return focus_radius * rnd_disk3() * (u + v); };
 
-        auto dx = vp_width / width * u;
-        auto dy = -vp_height / height * v;
+        auto dx = vp_width / view.width * u;
+        auto dy = -vp_height / view.height * v;
 
         auto pixel0 = viewport0 + .5 * (dx + dy);
         auto sub_pixel = [&]{ return (rnd_square3() - .5) * (dx + dy); };
 
-        image image{width, height};
+        image image{view.width, view.height};
 
         auto ci = image.pixel.begin();
-        for (int y = 0; y < height; ++y)
+        for (int y = 0; y < view.height; ++y)
         {
-            std::cerr << "\rRemaining: " << (height - y) << ' ' << std::flush;
-            for (int x = 0; x < width; ++x)
+            std::cerr << "\rRemaining: " << (view.height - y) << ' ' << std::flush;
+            for (int x = 0; x < view.width; ++x)
             {
                 auto pixel = pixel0 + (x * dx) + (y * dy);
 
-                auto c = tbb::parallel_reduce(range{0, samples_per_pixel}, color3{ },
+                auto c = tbb::parallel_reduce(range{0, view.samples_per_pixel}, color3{ },
                     [&](const range& r, color3 c)
                     {
                         for (auto i = r.begin(); i != r.end(); ++i)
@@ -73,14 +79,14 @@ struct camera
                             auto dir = pixel - origin + sub_pixel();
                             auto time = rnd();
 
-                            c += ray_color(ray3{origin, dir, time}, max_depth, world, view.back_gnd);
+                            c += ray_color(ray3{origin, dir, time}, view.max_depth, world, view.back_gnd);
                         }
                         return c;
                     },
                     [](const color3& x, const color3& y){ return x + y; }
                 );
 
-                *ci++ = sqrt(c / samples_per_pixel); // sqrt = gamma correction
+                *ci++ = sqrt(c / view.samples_per_pixel); // sqrt = gamma correction
             }
         }
         std::cerr << "\rDone.            " << std::endl;
@@ -89,12 +95,6 @@ struct camera
     }
 
 private:
-    int samples_per_pixel = 500;
-    int max_depth = 50;
-
-    int width = 1200;
-    int height = width * 9 / 16;
-
     color3 ray_color(const ray3& ray, int depth, const object& world, const color3& back_gnd) const
     {
         if (!depth) return color3{ };
