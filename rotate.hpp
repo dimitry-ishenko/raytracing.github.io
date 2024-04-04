@@ -20,8 +20,8 @@ struct rotate_y : object
                 for (auto z : { bbox.z.min, bbox.z.max })
                 {
                     vec3 vec{ cos_th * x + sin_th * z, y, -sin_th * x + cos_th * z };
-                    pmin = min(pmin, vec);
-                    pmax = max(pmax, vec);
+                    pmin = std::min(pmin, vec);
+                    pmax = std::max(pmax, vec);
                 }
 
         bbox = aabb{pmin, pmax};
