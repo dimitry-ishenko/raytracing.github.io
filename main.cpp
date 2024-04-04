@@ -188,7 +188,7 @@ int main(int argc, char* argv[])
     view.back_gnd = color3{0, 0, 0};
 #endif
 
-#if 1 // cornell smoke
+#if 0 // cornell smoke
     auto green = std::make_shared<lambert>( color3{.12, .45, .15} );
     auto red   = std::make_shared<lambert>( color3{.65, .05, .05} );
     auto white = std::make_shared<lambert>( color3{.73, .73, .73} );
@@ -221,6 +221,76 @@ int main(int argc, char* argv[])
     view.focus_dist = 10;
 
     view.back_gnd = color3{0, 0, 0};
+#endif
+
+#if 1 // final scene
+    auto ground = std::make_shared<lambert>(color3{.48, .83, .53});
+
+    for (auto i = 0; i < 20; ++i)
+        for (auto j = 0; j < 20; ++j)
+        {
+            constexpr auto w = 100;
+
+            auto x0 = -1000. + i * w;
+            auto y0 = 0.;
+            auto z0 = -1000. + j * w;
+
+            auto x1 = x0 + w;
+            auto y1 = 1. + 100 * rnd();
+            auto z1 = z0 + w;
+
+            world.push_back( box(point3{x0, y0, z0}, point3{x1, y1, z1}, ground) );
+        }
+
+    auto light = std::make_shared<diffuse>( color3{7, 7, 7} );
+    world.push_back(std::make_shared<quad>( point3{123, 554, 147}, vec3{300, 0, 0}, vec3{0, 0, 265}, light ));
+
+    auto center1 = point3{400, 400, 200};
+    auto center2 = center1 + vec3{30, 0, 0};
+    auto matte = std::make_shared<lambert>(color3{.7, .3, .1});
+    world.push_back(std::make_shared<sphere3>( center1, center2, 50, matte ));
+
+    auto glass = std::make_shared<dielec>(1.5);
+    world.push_back(std::make_shared<sphere3>( point3{260, 150, 45}, 50, glass ));
+
+    auto metalic = std::make_shared<metal>( color3{.8, .8, .9}, 1 );
+    world.push_back(std::make_shared<sphere3>( point3{0, 150, 145}, 50, metalic ));
+
+    auto edge = std::make_shared<sphere3>( point3{360, 150, 145}, 70, glass );
+    world.push_back(edge);
+    world.push_back(std::make_shared<constant>( edge, .2, color3{.2, .4, .9} ));
+
+    edge = std::make_shared<sphere3>( point3{0, 0, 0}, 5000, glass );
+    world.push_back(std::make_shared<constant>( edge, .0001, color3{1, 1, 1} ));
+
+    auto map = std::make_shared<lambert>(std::make_shared<pixmap>("./image/earthmap.ppm"));
+    world.push_back(std::make_shared<sphere3>( point3{400, 200, 400}, 100, map ));
+
+    auto perlin = std::make_shared<lambert>(std::make_shared<noise>(.2));
+    world.push_back(std::make_shared<sphere3>( point3{220, 280, 300}, 80, perlin ));
+
+    object_list spheres;
+    auto white = std::make_shared<lambert>(color3{.73, .73, .73});
+    for (auto i = 0; i < 1000; ++i)
+    {
+        auto center = 165 * point3{rnd(), rnd(), rnd()};
+        spheres.push_back(std::make_shared<sphere3>(center, 10, white));
+    }
+
+    auto node = std::make_shared<bvh_node>(spheres);
+    world.push_back(std::make_shared<translate>( std::make_shared<rotate_y>(node, 15), vec3{-100, 270, 395} ));
+
+    view.from  = point3{478, 278, -600};
+    view.at    = point3{278, 278,    0};
+    view.up    = vec3{0, 1, 0};
+    view.field = 40;
+    view.focus_angle = 0;
+    view.focus_dist = 10;
+
+    view.back_gnd = color3{0, 0, 0};
+
+    view.height = view.width;
+    view.samples_per_pixel = 10000;
 #endif
 
     auto image = camera{ }.render(bvh_node{std::move(world)}, view);
