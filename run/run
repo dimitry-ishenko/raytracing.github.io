@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+make -C ../build
+ex=$(cd ../build; ls -1v ex-* | tail -n1)
+
+if [[ -n "$ex" ]]; then
+    echo "Running $ex"
+    img=img-${ex#ex-}.ppm
+
+    time ../build/$ex $img > x$img
+    [[ -s "x$img" ]] && mv x$img $img || rm x$img
+    xdg-open $img
+fi
+

@@ -1,0 +1,3 @@
+#!/bin/bash
+img=$(ls -1v img-* | tail -n1)
+xdg-open $img
