@@ -86,8 +86,6 @@ int main(int argc, char* argv[])
     view.at    = point3{ 0, 0, 0};
     view.up    = vec3  { 0, 1, 0};
     view.field = 20;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
 #endif
 
 #if 0 // earth
@@ -98,8 +96,6 @@ int main(int argc, char* argv[])
     view.at    = point3{0, 0,  0};
     view.up    = vec3  {0, 1,  0};
     view.field = 20;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
 #endif
 
 #if 0 // perlin
@@ -111,8 +107,6 @@ int main(int argc, char* argv[])
     view.at    = point3{ 0, 0, 0};
     view.up    = vec3  { 0, 1, 0};
     view.field = 20;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
 #endif
 
 #if 0 // quad
@@ -132,8 +126,6 @@ int main(int argc, char* argv[])
     view.at    = point3{0, 0, 0};
     view.up    = vec3  {0, 1, 0};
     view.field = 80;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
 #endif
 
 #if 0 // light
@@ -149,9 +141,6 @@ int main(int argc, char* argv[])
     view.at    = point3{ 0, 2, 0};
     view.up    = vec3  { 0, 1, 0};
     view.field = 20;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
-
     view.back_gnd = color3{0, 0, 0};
 #endif
 
@@ -182,9 +171,6 @@ int main(int argc, char* argv[])
     view.at    = point3{278, 278,    0};
     view.up    = vec3{ 0, 1, 0};
     view.field = 40;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
-
     view.back_gnd = color3{0, 0, 0};
 #endif
 
@@ -217,9 +203,6 @@ int main(int argc, char* argv[])
     view.at    = point3{278, 278,    0};
     view.up    = vec3{ 0, 1, 0};
     view.field = 40;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
-
     view.back_gnd = color3{0, 0, 0};
 #endif
 
@@ -284,9 +267,6 @@ int main(int argc, char* argv[])
     view.at    = point3{278, 278,    0};
     view.up    = vec3{0, 1, 0};
     view.field = 40;
-    view.focus_angle = 0;
-    view.focus_dist = 10;
-
     view.back_gnd = color3{0, 0, 0};
 
     view.height = view.width;

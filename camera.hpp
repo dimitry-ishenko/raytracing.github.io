@@ -24,8 +24,8 @@ struct view
     vec3 up;
     double field;
 
-    double focus_dist;
-    double focus_angle;
+    double focus_dist = 10;
+    double focus_angle = 0;
 
     color3 back_gnd{.7, .8, 1};
 
