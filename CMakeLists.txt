@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16) # focal
-project(ex VERSION 3.2.3)
+project(ex VERSION 3.3.2)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -13,6 +13,10 @@ target_link_libraries(${EX} PUBLIC tbb)
 
 if(PROJECT_VERSION VERSION_EQUAL 3.2.2)
     target_sources(${EX} PUBLIC more/pi.cpp)
+
+elseif(PROJECT_VERSION VERSION_EQUAL 3.3.2)
+    target_sources(${EX} PUBLIC more/int_x2.cpp)
+
 else()
     target_sources(${EX} PUBLIC
         aabb.hpp
