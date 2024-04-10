@@ -58,7 +58,7 @@ struct camera
         auto dy = -vp_height / view.height * v;
 
         auto pixel0 = viewport0 + .5 * (dx + dy);
-        auto sub_pixel = [&]{ return (rnd_square3() - .5) * (dx + dy); };
+        const int sqrt_per_pixel = std::sqrt(view.samples_per_pixel);
 
         image image{view.width, view.height};
 
@@ -70,23 +70,27 @@ struct camera
             {
                 auto pixel = pixel0 + (x * dx) + (y * dy);
 
-                auto c = tbb::parallel_reduce(range{0, view.samples_per_pixel}, color3{ },
-                    [&](const range& r, color3 c)
+                auto c = tbb::parallel_reduce(range{0, sqrt_per_pixel}, color3{ },
+                    [&](const range& ry, color3 c)
                     {
-                        for (auto i = r.begin(); i != r.end(); ++i)
-                        {
-                            auto origin = view.from + focus_disk();
-                            auto dir = pixel - origin + sub_pixel();
-                            auto time = rnd();
+                        for (auto iy = ry.begin(); iy != ry.end(); ++iy)
+                            for (auto ix = 0; ix != sqrt_per_pixel; ++ix)
+                            {
+                                auto px = dx * ((ix + rnd()) / sqrt_per_pixel - .5);
+                                auto py = dy * ((iy + rnd()) / sqrt_per_pixel - .5);
 
-                            c += ray_color(ray3{origin, dir, time}, view.max_depth, world, view.back_gnd);
-                        }
+                                auto origin = view.from + focus_disk();
+                                auto dir = pixel - origin + px + py;
+                                auto time = rnd();
+
+                                c += ray_color(ray3{origin, dir, time}, view.max_depth, world, view.back_gnd);
+                            }
                         return c;
                     },
                     [](const color3& x, const color3& y){ return x + y; }
                 );
 
-                *ci++ = sqrt(c / view.samples_per_pixel); // sqrt = gamma correction
+                *ci++ = sqrt(c) / sqrt_per_pixel; // sqrt = gamma correction
             }
         }
         std::cerr << "\rDone.            " << std::endl;

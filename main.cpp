@@ -144,7 +144,7 @@ int main(int argc, char* argv[])
     view.back_gnd = color3{0, 0, 0};
 #endif
 
-#if 0 // cornell box
+#if 1 // cornell box
     auto green = std::make_shared<lambert>( color3{.12, .45, .15} );
     auto red   = std::make_shared<lambert>( color3{.65, .05, .05} );
     auto white = std::make_shared<lambert>( color3{.73, .73, .73} );
@@ -206,7 +206,7 @@ int main(int argc, char* argv[])
     view.back_gnd = color3{0, 0, 0};
 #endif
 
-#if 1 // final scene
+#if 0 // final scene
     auto ground = std::make_shared<lambert>(color3{.48, .83, .53});
 
     for (auto i = 0; i < 20; ++i)
