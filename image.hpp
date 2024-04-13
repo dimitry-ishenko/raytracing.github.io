@@ -71,8 +71,17 @@ private:
     static constexpr auto eol = '\n';
     static constexpr auto max = 255;
 
-    static constexpr int to_int(double v) { return std::clamp(v, 0., 1.) * max + .5; }
-    static constexpr color3 to_color(double r, double g, double b) { return color3{r, g, b} / max; }
+    static constexpr int to_int(double v)
+    {
+        v = std::sqrt(v); // apply gamma correction
+        return std::clamp(v, 0., 1.) * max + .5;
+    }
+
+    static constexpr color3 to_color(double r, double g, double b)
+    {
+        auto c = color3{r, g, b} / max;
+        return c * c; // un-apply gamma correction
+    }
 };
 
 #endif

@@ -90,7 +90,7 @@ struct camera
                     [](const color3& x, const color3& y){ return x + y; }
                 );
 
-                *ci++ = sqrt(c) / sqrt_per_pixel; // sqrt = gamma correction
+                *ci++ = c / sqrt_per_pixel / sqrt_per_pixel;
             }
         }
         std::cerr << "\rDone.            " << std::endl;
