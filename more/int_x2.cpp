@@ -4,21 +4,40 @@
 #include <iomanip>
 #include <iostream>
 
+auto f(double x)
+{
+    return x * x;
+//  return std::pow(std::sin(x), 5);
+//  return std::log(std::sin(x));
+};
+
+auto pdf(double x)
+{
+//  return .5;
+//  return x / 2;
+    return 3. / 8. * x * x;
+}
+
+auto cdf_inv(double d)
+{
+//  return 2 * d;
+//  return std::sqrt(4 * d);
+    return std::pow(8 * d, 1. / 3.);
+}
+
 int main()
 {
-    constexpr auto fn = [](double x){ return x * x;                    };
-//  constexpr auto fn = [](double x){ return std::pow(std::sin(x), 5); };
-//  constexpr auto fn = [](double x){ return std::log(std::sin(x));    };
-
-    constexpr auto a = 0;
-    constexpr auto b = 2;
-    constexpr auto n = 1'000'000;
-
-    rnd_gen rnd{a, b};
+//  constexpr auto n = 1'000'000;
+    constexpr auto n = 1;
 
     double sum = 0;
-    for (auto i = 0; i < n; ++i) sum += fn(rnd());
-    sum = (b - a) * sum / n;
+    for (auto i = 0; i < n; ++i)
+        if (auto d = rnd())
+        {
+            auto x = cdf_inv(d);
+            sum += f(x) / pdf(x);
+        }
+    sum = sum / n;
 
     std::cout << std::fixed << std::setprecision(16);
 
