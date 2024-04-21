@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16) # focal
-project(ex VERSION 3.3.7)
+project(ex VERSION 3.4)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -19,6 +19,9 @@ elseif(PROJECT_VERSION VERSION_EQUAL 3.3.2 OR PROJECT_VERSION VERSION_EQUAL 3.3.
 
 elseif(PROJECT_VERSION VERSION_EQUAL 3.3.5)
     set(SOURCES more/half.cpp)
+
+elseif(PROJECT_VERSION VERSION_EQUAL 3.4)
+    set(SOURCES more/int_sphere.cpp)
 
 else()
     set(SOURCES
