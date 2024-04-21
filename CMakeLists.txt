@@ -12,16 +12,16 @@ add_executable(${EX})
 target_link_libraries(${EX} PUBLIC tbb)
 
 if(PROJECT_VERSION VERSION_EQUAL 3.2.2)
-    target_sources(${EX} PUBLIC more/pi.cpp)
+    set(SOURCES more/pi.cpp)
 
 elseif(PROJECT_VERSION VERSION_EQUAL 3.3.2 OR PROJECT_VERSION VERSION_EQUAL 3.3.7)
-    target_sources(${EX} PUBLIC more/int_x2.cpp)
+    set(SOURCES more/int_x2.cpp)
 
 elseif(PROJECT_VERSION VERSION_EQUAL 3.3.5)
-    target_sources(${EX} PUBLIC more/half.cpp)
+    set(SOURCES more/half.cpp)
 
 else()
-    target_sources(${EX} PUBLIC
+    set(SOURCES
         aabb.hpp
         array.hpp
         box.hpp
@@ -57,3 +57,5 @@ else()
         vec.hpp
     )
 endif()
+
+target_sources(${EX} PUBLIC ${SOURCES})
