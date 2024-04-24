@@ -112,7 +112,10 @@ private:
             color += *emitted;
 
         if (auto scatter = hit->mat->get_scatter(ray, *hit))
-            color += scatter->atten * ray_color(scatter->ray, --depth, world, back_gnd);
+        {
+            auto pdf = scatter->pdf;
+            color += scatter->atten * scatter->pdf * ray_color(scatter->ray, --depth, world, back_gnd) / pdf;
+        }
 
         return color;
     }

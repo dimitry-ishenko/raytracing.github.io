@@ -12,6 +12,7 @@ struct scatter
 {
     ray3 ray;
     color3 atten;
+    double pdf;
 };
 
 struct material

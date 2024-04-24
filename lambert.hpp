@@ -4,6 +4,7 @@
 #include "color.hpp"
 #include "hit.hpp"
 #include "material.hpp"
+#include "math.hpp"
 #include "random.hpp"
 #include "ray.hpp"
 #include "solid.hpp"
@@ -21,7 +22,10 @@ struct lambert : material
         auto dir = hit.norm + unit(rnd_sphere3());
         if (near_0(dir)) dir = hit.norm;
 
-        return scatter{ ray3{hit.point, dir, ray.time}, albedo->value(hit.uv, hit.point) };
+        auto cos_th = dot(hit.norm, unit(dir));
+        auto pdf = std::max(0., cos_th / pi);
+
+        return scatter{ ray3{hit.point, dir, ray.time}, albedo->value(hit.uv, hit.point), pdf };
     }
 
 private:
