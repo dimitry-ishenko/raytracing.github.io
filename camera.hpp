@@ -113,7 +113,7 @@ private:
 
         if (auto scatter = hit->mat->get_scatter(ray, *hit))
         {
-            auto pdf = scatter->pdf;
+            auto pdf = .5 / pi;
             color += scatter->atten * scatter->pdf * ray_color(scatter->ray, --depth, world, back_gnd) / pdf;
         }
 
