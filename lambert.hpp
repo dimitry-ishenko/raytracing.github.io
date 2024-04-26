@@ -19,11 +19,10 @@ struct lambert : material
 
     virtual std::optional<scatter> get_scatter(const ray3& ray, const hit& hit) const override
     {
-        auto dir = hit.norm + unit(rnd_sphere3());
-        if (near_0(dir)) dir = hit.norm;
+        auto dir = rnd_sphere3();
+        if (dot(dir, hit.norm) < 0) dir = -dir;
 
-        auto cos_th = dot(hit.norm, unit(dir));
-        auto pdf = std::max(0., cos_th / pi);
+        auto pdf = .5 / pi;
 
         return scatter{ ray3{hit.point, dir, ray.time}, albedo->value(hit.uv, hit.point), pdf };
     }
